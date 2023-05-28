@@ -12,6 +12,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<dynamic> services = [];
+  String userType = 'agency';
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
           backgroundColor: Color(0xFF9CD4E7),
           title: const Text("Home"),
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: (){
-            print("menu");
-          },
-        ),
+
         actions: [
           IconButton(
             icon: Icon(Icons.search),
@@ -35,11 +31,47 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
 
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+              color: Color(0xFF9CD4E7),
+            ),
+            child: Text('Drawer header'),
+             ),
+            const ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Mi inicio'),
+            ),
+            const ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Perfil'),
+            ),
+            if (userType == 'agency')
+            const ListTile(
+              leading: Icon(Icons.accessibility),
+              title: Text('Mis clientes'),
+            ),
+            if (userType == 'agency')
+            const ListTile(
+              leading: Icon(Icons.payment),
+              title: Text('Cambiar Plan'),
+            ),
+            const ListTile(
+              leading: Icon(Icons.output),
+              title: Text('Cerrar sesión'),
+            )
+          ],
+        ),
+      ),
       body: Column(  crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget> [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Ofertas del dia', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
+
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text('Ofertas del dia', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
           ),
           Expanded(
             child: ListView.builder(
@@ -50,17 +82,31 @@ class _HomeScreenState extends State<HomeScreen> {
                   final service = services[index];
                   final name = service['name'];
                   final agencyName = service['agency_id']['name'];
+                  final price = service['price'];
+                  final img = service['img_url'];
                   return Card(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 65.0),
-                          child: Image.network('https://media.cntraveler.com/photos/60d20faa834e550f9a4e100f/4:3/w_4992,h_3744,c_limit/Adventures%20to%20Have%20in%20a%20Lifetime-2021_Northern%20Lights_GettyImages-183159872.jpg',
-                          height: 200),
+                          padding: const EdgeInsets.only(left: 60.0,top: 10.0),
+                          child: Image.network(img,
+                          height: 200,
+                          width: 300),
                         ),
-                        Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text(agencyName, textAlign: TextAlign.center,)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0, top: 10.0),
+                          child: Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0,top: 10.0),
+                          child: Text('ofrecido por: $agencyName', textAlign: TextAlign.center,),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0,top: 10.0,bottom: 10),
+                          child: Text('\$ $price.00', textAlign: TextAlign.center,),
+                        )
                       ],
                     ),
                   );
