@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
@@ -110,6 +111,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       final agencyName = service['agency_id']['name'];
                       final price = service['price'];
                       final img = service['img_url'];
+                      final rating = service['score'].toDouble();
+                      final agencyRating = service['agency_id']['score'].toDouble();
+
+
                       return Card(
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
                         child: Column(
@@ -122,12 +127,56 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: 300),
                             ),
                             Padding(
+                              padding: const EdgeInsets.only(left: 10.0,top: 10.0),
+                              child: RatingBar.builder(
+                                initialRating: rating,
+                                minRating: 0,
+                                direction: Axis.horizontal,
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                ignoreGestures: true,
+                                itemSize: 20.0,
+                                itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
+                                itemBuilder: (context, _) => const Icon(
+                                  Icons.star,
+                                  color: Colors.amber
+                                ),
+                                onRatingUpdate: (rating) {
+                                  print(rating);
+                                },
+                              ),
+                            ),
+                            Padding(
                               padding: const EdgeInsets.only(left: 15.0, top: 10.0),
                               child: Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 15.0,top: 10.0),
-                              child: Text('ofrecido por: $agencyName', textAlign: TextAlign.center,),
+                              child: Row(
+                                children: [
+                                  Text('ofrecido por: $agencyName', textAlign: TextAlign.center,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15.0),
+                                    child: RatingBar.builder(
+                                      initialRating: agencyRating,
+                                      minRating: 0,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      ignoreGestures: true,
+                                      itemSize: 15.0,
+                                      itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
+                                      itemBuilder: (context, _) => const Icon(
+                                          Icons.star,
+                                          color: Colors.amber
+                                      ),
+                                      onRatingUpdate: (rating) {
+                                        print(rating);
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 15.0,top: 10.0,bottom: 10),
