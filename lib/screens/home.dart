@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:http/http.dart' as http;
+import 'package:go2climb/models/service.dart';
+import 'package:go2climb/services/agencyApi.dart' ;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -13,11 +14,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<dynamic> services = [];
+  List<Services> services = [];
   String userType = 'agency';
   @override
   void initState() {
     super.initState();
+    fetchServices();
   }
 
   @override
@@ -26,12 +28,12 @@ class _HomeScreenState extends State<HomeScreen> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-            backgroundColor: Color(0xFF9CD4E7),
+            backgroundColor: const Color(0xFF9CD4E7),
             title: const Text("Home"),
 
           actions: [
             IconButton(
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
               onPressed: (){
                 print("search");
               },
@@ -107,12 +109,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: services.length,
                     itemBuilder: (context, index){
                       final service = services[index];
-                      final name = service['name'];
-                      final agencyName = service['agency_id']['name'];
-                      final price = service['price'];
-                      final img = service['img_url'];
-                      final rating = service['score'].toDouble();
-                      final agencyRating = service['agency_id']['score'].toDouble();
+                      final name = service.name;
+                      final agencyName = service.agencyName;
+                      final price = service.price;
+                      final img = service.img_url;
+                      final rating = service.score.toDouble();
+                      final agencyRating = service.agencyScore.toDouble();
 
 
                       return Card(
@@ -189,29 +191,23 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-            Text('Populares'),
-            Text('Para Ti')
+            const Text('Populares'),
+            const Text('Para Ti')
           ],
 
         ) ,
         floatingActionButton: FloatingActionButton(
-          onPressed: fetchServices,
+          onPressed: (){print('boton');},
         ),
       ),
     );
   }
 
-  void fetchServices() async{
-    print('fetchservices');
-    const url = 'http://10.0.2.2:3000/api/v1/services';
-    final uri = Uri.parse(url);
-    final response = await http.get(uri);
-    final body = response.body;
-    final json = jsonDecode(body);
-    setState(() {
-      services = json;
-    });
-    print(json);
+  Future<void> fetchServices() async{
+    final response = await AgencyApi.fetchServices();
 
+    setState(() {
+      services = response;
+    });
   }
 }
