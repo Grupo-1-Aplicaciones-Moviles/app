@@ -1,4 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:go2climb/widgets/registerAgency.dart';
+import 'package:go2climb/widgets/registerTourist.dart';
+
+import '../screens/home.dart';
+
 
 class Login extends StatefulWidget{
   @override
@@ -104,7 +111,7 @@ class _LoginFormState extends State<Login>{
                     child: ElevatedButton(
                       child: Text("Iniciar Sesion"),
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => logIn()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Color(0xFF9CD4E7)
@@ -126,7 +133,7 @@ class _LoginFormState extends State<Login>{
                     child:  ElevatedButton(
                       child: Text("Registrate y disfruta tu aventura"),
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterTurist()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterTourist()));
                       },
                       style: ElevatedButton.styleFrom(
                           primary: Color(0xFF9CD4E7)
@@ -143,7 +150,7 @@ class _LoginFormState extends State<Login>{
                       child:  ElevatedButton(
                           child: Text("Registrate y ofrece servicios turisticos"),
                           onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterAgent()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterAgency()));
                           },
                         style: ElevatedButton.styleFrom(
                             primary: Color(0xFF9CD4E7)
@@ -239,27 +246,11 @@ class forgetPassword extends StatelessWidget{
   }
 }
 
-class logIn extends StatelessWidget{
-  @override
 
-  Widget build(BuildContext context) {
-    return Text("falta aun");
-  }
-}
-class RegisterAgent extends StatelessWidget{
-  @override
 
-  Widget build(BuildContext context) {
-    return Text("falta aun");
-  }
-}
-class RegisterTurist extends StatelessWidget{
-  @override
 
-  Widget build(BuildContext context) {
-    return Text("falta aun");
-  }
-}
+
+
 
 class smsForgetPassword extends StatelessWidget{
   late String _codigo;
@@ -405,3 +396,87 @@ class newPassword extends StatelessWidget{
 
   }
 }
+
+/*
+
+class RegisterTurist extends StatelessWidget{
+  late String _email;
+  late String _password;
+  bool _obscureText = true;
+  @override
+
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Align(
+          alignment: Alignment.center,
+          child: Text("Registrarte",),
+        ),
+      ),
+      body:  ListView(
+    padding: EdgeInsets.all(30.0),
+    children:<Widget> [
+            Divider(
+             height: 18.0,
+            ),
+            Text(
+              "Te damos la bienvenida a GO2Climb",
+             style: TextStyle(
+               fontWeight: FontWeight.bold,
+               fontSize: 15.0,
+              ),
+             textAlign: TextAlign.center,
+            ),
+            TextField(
+              enableInteractiveSelection: false,
+              autofocus: true,
+              textCapitalization: TextCapitalization.characters,
+              decoration: InputDecoration(
+                  hintText: "correo electrónico",
+                  labelText: "correo electrónico",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(20.0),
+                        topLeft: Radius.circular(20.0)
+
+                      )
+                  )
+              ),
+              onSubmitted: (valor){
+                _email = valor;
+              },
+             ),
+           TextField(
+                 obscureText: _obscureText,
+                decoration: InputDecoration(
+                hintText: "Contraseña",
+                labelText: "Contraseña",
+                suffixIcon: IconButton(
+                 icon:Icon(
+                    _obscureText ? Icons.visibility_off : Icons.visibility,
+                  ),
+                  onPressed: (){
+                   setState(() {
+                      _obscureText=!_obscureText;
+                 });
+                 },
+             ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20.0),
+                    bottomRight: Radius.circular(20.0)
+                )
+            )
+        ),
+        onSubmitted: (valor){
+          _password = valor;
+        },
+      ),
+
+
+      ]
+      ),
+    );
+  }
+}
+ */
