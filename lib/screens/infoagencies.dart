@@ -18,7 +18,7 @@ class _agenciesState extends State<agencies> {
   @override
   void initState() {
     super.initState();
-    fetchServicesbyID("642617c49c44283965216abe");
+    fetchGetAgenciforID("642617c49c44283965216abe");
   }
 
   @override
@@ -38,8 +38,8 @@ class _agenciesState extends State<agencies> {
          return Scaffold();
   }
 
-  Future<void> fetchServicesbyID(String id) async{
-    final response = await AgencyApi.fetchServicesbyID(id);
+  Future<void> fetchGetAgenciforID(String id) async{
+    final response = await AgencyApi.fetchGetAgenciforID(id);
 
     setState(() {
       services = response;

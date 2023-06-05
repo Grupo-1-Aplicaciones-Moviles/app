@@ -29,16 +29,38 @@ class AgencyApi{
 
     return transformed;
   }
-  static Future<List<Agencies>> fetchServicesbyID(String id) async{
+  static Future<List<Agencies>> fetchGetAgenciforID(String id) async{
 
     final url = 'http://10.0.2.2:3000/api/v1/agencies/$id';
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     final body = response.body;
     final json = jsonDecode(body);
-  print('json');
-
-
-    return json;
+    final results = json as dynamic;
+    print('json');
+    return results;
   }
+  static Future<List<Agencies>> fetchGetServicesByAgencyId(String id) async{
+//listtitle
+    final url = 'http://10.0.2.2:3000/api/v1/agencies/$id/services';
+    final uri = Uri.parse(url);
+    final response = await http.get(uri);
+    final body = response.body;
+    final json = jsonDecode(body);
+    final results = json as dynamic;
+    print('json');
+    return results;
+  }
+  static Future<List<Agencies>> fetchGetReviewsByAgencyId(String id) async{
+//listtitle
+    final url = 'http://10.0.2.2:3000/api/v1/agencies/$id/reviews';
+    final uri = Uri.parse(url);
+    final response = await http.get(uri);
+    final body = response.body;
+    final json = jsonDecode(body);
+    final results = json as dynamic;
+    print('json');
+    return results;
+  }
+
 }
