@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go2climb/widgets/offers.dart';
+
+import '../screens/infoagencies.dart';
 
 class myDrawer extends StatefulWidget {
   const myDrawer({Key? key}) : super(key: key);
@@ -25,9 +28,12 @@ class _myDrawerState extends State<myDrawer> {
             leading: Icon(Icons.home),
             title: Text('Mi inicio'),
           ),
-          const ListTile(
+           ListTile(
             leading: Icon(Icons.person),
             title: Text('Perfil'),
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => agencies()));
+            }
           ),
           if (userType == 'agency')
             const ListTile(

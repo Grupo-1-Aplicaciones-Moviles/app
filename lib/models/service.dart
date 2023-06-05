@@ -26,11 +26,11 @@ class Services{
 
 }
 
-class AgencyDetails{
+class ServicesDetails{
   final int score;
   final String name;
 
-  AgencyDetails({
+  ServicesDetails({
     required this.score,
     required this.name
   });

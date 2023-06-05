@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:go2climb/models/agencies.dart';
 import 'package:go2climb/models/service.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,7 +13,7 @@ class AgencyApi{
     final json = jsonDecode(body);
     final results = json as List<dynamic>;
     final transformed = results.map((e) {
-      final agency =  AgencyDetails(name: e['agency_id']['name'] ,score: e['agency_id']['score'] );
+      final agency = ServicesDetails(name: e['agency_id']['name'] ,score: e['agency_id']['score'] );
       return Services(
           id: e['_id'],
           name: e['name'],
@@ -27,5 +28,17 @@ class AgencyApi{
     }).toList();
 
     return transformed;
+  }
+  static Future<List<Agencies>> fetchServicesbyID(String id) async{
+
+    final url = 'http://10.0.2.2:3000/api/v1/agencies/$id';
+    final uri = Uri.parse(url);
+    final response = await http.get(uri);
+    final body = response.body;
+    final json = jsonDecode(body);
+  print('json');
+
+
+    return json;
   }
 }
