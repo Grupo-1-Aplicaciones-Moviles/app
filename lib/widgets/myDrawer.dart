@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go2climb/screens/home.dart';
+import 'package:go2climb/screens/profile-tourist.dart';
+import 'package:go2climb/widgets/login.dart';
 
 class myDrawer extends StatefulWidget {
   const myDrawer({Key? key}) : super(key: key);
@@ -19,15 +22,23 @@ class _myDrawerState extends State<myDrawer> {
             decoration: BoxDecoration(
               color: Color(0xFF9CD4E7),
             ),
-            child: Text('prueba'),
+            child: Text(''),
           ),
-          const ListTile(
+          InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          }, child: ListTile(
             leading: Icon(Icons.home),
             title: Text('Mi inicio'),
+            )
           ),
-          const ListTile(
+          InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileTouristScreen()));
+              }, child: ListTile(
             leading: Icon(Icons.person),
             title: Text('Perfil'),
+          )
           ),
           if (userType == 'agency')
             const ListTile(
@@ -39,10 +50,14 @@ class _myDrawerState extends State<myDrawer> {
               leading: Icon(Icons.payment),
               title: Text('Cambiar Plan'),
             ),
-          const ListTile(
+          InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+              }, child: ListTile(
             leading: Icon(Icons.output),
             title: Text('Cerrar sesión'),
           )
+          ),
         ],
       ),
     );
