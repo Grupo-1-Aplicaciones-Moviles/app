@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length:3,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color(0xFF9CD4E7),
