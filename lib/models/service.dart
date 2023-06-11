@@ -8,8 +8,7 @@ class Services{
   final String img_url;
   final String description;
   final int score;
-  final String agencyName;
-  final int agencyScore;
+  final AgencyDetails agency;
 
 
   Services({
@@ -20,8 +19,7 @@ class Services{
     required this.img_url,
     required this.description,
     required this.score,
-    required this.agencyName,
-    required this.agencyScore
+    required this.agency
   });
 
 }
@@ -29,9 +27,23 @@ class Services{
 class AgencyDetails{
   final int score;
   final String name;
+  final String email;
+  final String description;
+  final String location;
+  final String password;
+  final String phoneNumber;
+  final String img_url;
+  final String type_user;
 
   AgencyDetails({
     required this.score,
-    required this.name
+    required this.name,
+    required this.email,
+    required this.description,
+    required this.location,
+    required this.password,
+    required this.phoneNumber,
+    required this.img_url,
+    required this.type_user
   });
 }
