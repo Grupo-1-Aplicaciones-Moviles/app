@@ -79,6 +79,11 @@ class _DetalleState extends State<Detalle> {
                     padding: EdgeInsets.all(15.0),
                     child: Text("Las actividades que realizaras", style: TextStyle(fontWeight: FontWeight.bold),),
                   ),
+                  if (activities.isEmpty)
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text("No hay actividades disponibles"),
+                  ),
                   ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
@@ -95,9 +100,46 @@ class _DetalleState extends State<Detalle> {
 
                         );
 
-                  })
+                  }),
                 ],
               ),
+          ),
+          Card(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+              child: const Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: Text("Es bueno saberlo", style: TextStyle(fontWeight: FontWeight.bold)),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: Text("este servicion atiende a los visitantes de lunes a viernes"),
+                  )
+                ],
+              )
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('\$${service.price}', style: const TextStyle(fontWeight: FontWeight.bold),),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF9CD4E7),
+                    foregroundColor: Colors.black
+                  ),
+                  onPressed: () {
+                    print("solicitar");
+                  },
+                  child: const Text('Solicitar'),
+                ),
+              )
+            ],
           )
         ],
       ),
