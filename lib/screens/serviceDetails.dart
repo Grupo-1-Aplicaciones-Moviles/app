@@ -86,8 +86,9 @@ class _DetalleState extends State<Detalle> {
                       itemBuilder: (context, index){
                         final activity = activities[index];
                         return ListTile(
-                          leading: Icon(
-                            Icons.circle_rounded
+                          leading: const Icon(
+                            Icons.circle_rounded,
+                            color: Colors.lightBlueAccent,
                           ),
                           title: Text(activity.name),
                           subtitle: Text(activity.description),
