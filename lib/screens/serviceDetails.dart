@@ -13,7 +13,10 @@ class Detalle extends StatefulWidget {
 
 class _DetalleState extends State<Detalle> {
   late Services service;
+  String usertype = 'tourist';
   List<Activity> activities = [];
+
+
   @override
   void initState() {
     super.initState();
@@ -32,19 +35,36 @@ class _DetalleState extends State<Detalle> {
       ),
       body: Column(
         children:<Widget> [
+          if(usertype == 'agency')
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(onPressed: (){print("editar:" );},
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF9CD4E7),
+                        foregroundColor: Colors.black,
+                      fixedSize: Size(350, 15)
+                    ),
+                    child: const Text("Editar servicio")
+                )
+              ],
+            ),
+          ),
           Card(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.network(service.img_url),
+                    padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                    child: Image.network(service.img_url, height: 250, width: 350,),
                   ),
                   Row(
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(15.0),
-                        child: Text(service.name, style:TextStyle(fontWeight: FontWeight.bold) ),
+                        child: Text(service.name, style:const TextStyle(fontWeight: FontWeight.bold) ),
                       ),
                     ],
                   ),
@@ -52,11 +72,11 @@ class _DetalleState extends State<Detalle> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 15.0),
-                        child: Text("Lugar: "+service.location),
+                        child: Text("Lugar: ${service.location}"),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
-                        child: Text("Ofrecido por: " + service.agency.name),
+                        child: Text("Ofrecido por: ${service.agency.name}"),
                       )
                     ],
                   ),
@@ -114,11 +134,12 @@ class _DetalleState extends State<Detalle> {
                   ),
                   Padding(
                     padding: EdgeInsets.all(15.0),
-                    child: Text("este servicion atiende a los visitantes de lunes a viernes"),
+                    child: Text("este servicio atiende a los visitantes de lunes a viernes"),
                   )
                 ],
               )
           ),
+          if (usertype == 'tourist')
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
