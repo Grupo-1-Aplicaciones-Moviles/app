@@ -19,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Services> services = [];
+  String userType = 'agency';
 
   @override
   void initState() {
@@ -70,16 +71,18 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
 
         ) ,
-        floatingActionButton: FloatingActionButton(
+
+        floatingActionButton: userType.contains('agency') ? FloatingActionButton(
+          backgroundColor: const Color(0xFF9CD4E7),
+          child: const Icon(Icons.add),
           onPressed: (){
-            print('boton');
             Navigator.push(
                 context,
                 MaterialPageRoute(
                 builder: (context) => CreateService())
                 );
             },
-        ),
+        ) : Container(),
       ),
     );
   }
