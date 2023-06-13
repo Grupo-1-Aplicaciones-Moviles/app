@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:go2climb/models/newService.dart';
 import 'package:go2climb/models/service.dart';
+import 'package:go2climb/screens/create_service.dart';
 import 'package:go2climb/services/agencyApi.dart' ;
 import 'package:go2climb/widgets/myDrawer.dart';
 import 'package:go2climb/widgets/offers.dart';
@@ -69,7 +71,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
         ) ,
         floatingActionButton: FloatingActionButton(
-          onPressed: (){print('boton');},
+          onPressed: (){
+            print('boton');
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                builder: (context) => CreateService())
+                );
+            },
         ),
       ),
     );

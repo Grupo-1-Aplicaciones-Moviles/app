@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:go2climb/models/newService.dart';
 import 'package:go2climb/models/service.dart';
 import 'package:http/http.dart' as http;
 
@@ -30,4 +31,18 @@ class AgencyApi{
     }).toList();
     return transformed;
   }
+  
+  static Future<int> postService(dynamic service) async{
+    final headers = {"Content-type": "application/json"};
+    const url = 'http://10.0.2.2:3000/api/v1/services';
+    final uri = Uri.parse(url);
+    final json = service;
+    print(json);
+    final response = await http.post(uri,headers: headers,body: json);
+    print('Status code: ${response.statusCode}');
+    print('Body: ${response.body}');
+    return response.statusCode;
+    
+  }
+  
 }
