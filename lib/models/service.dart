@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+//este de aca es solo para get services
 class Services{
   final String id;
   final String name;
@@ -24,6 +25,7 @@ class Services{
 
 }
 
+//este de aca en teoria para todos los requests pero aun no lo pruebo
 class AgencyDetails{
   final int score;
   final String name;

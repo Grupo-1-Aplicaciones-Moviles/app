@@ -51,11 +51,14 @@ class _ofertasState extends State<ofertas> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 60.0,top: 10.0),
-                      child: Image.network(img,
-                          height: 200,
-                          width: 300),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.network(img,
+                            height: 200,
+                            width: 300)
+                        //,
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0,top: 10.0),
