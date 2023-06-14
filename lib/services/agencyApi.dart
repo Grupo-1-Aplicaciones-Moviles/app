@@ -17,7 +17,7 @@ class AgencyApi{
       final agency =  AgencyDetails(name: e['agency_id']['name'] ,score: e['agency_id']['score'],
           email:e['agency_id']['email'] ,description:e['agency_id']['description'] , location: e['agency_id']['location']
           ,password: e['agency_id']['password'] ,phoneNumber: e['agency_id']['phoneNumber'] ,img_url: e['agency_id']['img_url'] ,
-          type_user: e['agency_id']['type_user']  );
+          type_user: e['agency_id']['type_user'], id: e['agency_id']['_id']  );
       return Services(
           id: e['_id'],
           name: e['name'],
@@ -37,12 +37,26 @@ class AgencyApi{
     const url = 'http://10.0.2.2:3000/api/v1/services';
     final uri = Uri.parse(url);
     final json = service;
-    print(json);
+    //print(json);
     final response = await http.post(uri,headers: headers,body: json);
+    //print('Status code: ${response.statusCode}');
+    //print('Body: ${response.body}');
+    return response.statusCode;
+    
+  }
+
+  static Future<int> updateService(dynamic service, String id) async{
+    final headers = {"Content-type": "application/json"};
+    var url = 'http://10.0.2.2:3000/api/v1/services/$id';
+    print(url);
+    final uri = Uri.parse(url);
+    final json = service;
+    print(json);
+    final response = await http.put(uri,headers: headers,body: json);
     print('Status code: ${response.statusCode}');
     print('Body: ${response.body}');
     return response.statusCode;
-    
+
   }
   
 }

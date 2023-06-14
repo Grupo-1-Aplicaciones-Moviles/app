@@ -1,17 +1,21 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:go2climb/models/newService.dart';
 import 'package:go2climb/services/agencyApi.dart';
 
-class CreateService extends StatefulWidget {
-  const CreateService({Key? key}) : super(key: key);
+import '../models/newService.dart';
+
+class EditService extends StatefulWidget {
+  const EditService({Key? key, required this.aId, required this.sId }) : super(key: key);
+
+  final String aId;
+  final String sId;
 
   @override
-  _CreateServiceState createState() => _CreateServiceState();
+  _EditServiceState createState() => _EditServiceState();
 }
 
-class _CreateServiceState extends State<CreateService> {
+class _EditServiceState extends State<EditService> {
 
   int price = 0;
   String name = "";
@@ -21,15 +25,15 @@ class _CreateServiceState extends State<CreateService> {
   bool isOffer = false;
   int priceOffer = 0;
   late String agencyId;
+  late String serviceId;
   int score = 0;
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
-    setAgencyId();
+    setIds();
 
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,7 @@ class _CreateServiceState extends State<CreateService> {
       appBar: AppBar(
           iconTheme: const IconThemeData(color: Colors.black),
           backgroundColor: Colors.white70,
-          title: const Text("Nuevo Servicio", style: TextStyle(color: Colors.black),)
+          title: const Text("Editar Servicio", style: TextStyle(color: Colors.black),)
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(30.0),
@@ -85,8 +89,8 @@ class _CreateServiceState extends State<CreateService> {
                   labelText: "Precio",
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0))
-                      )
                   )
+              )
               ,
               onChanged: (value){
                 setState(() {
@@ -120,7 +124,7 @@ class _CreateServiceState extends State<CreateService> {
                   hintText: "Descripcion",
                   labelText: "Descripcion",
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
                   )
               )
               ,
@@ -145,34 +149,36 @@ class _CreateServiceState extends State<CreateService> {
               ],
             ),
             if(isOffer == true)
-            TextField(
-              decoration: const InputDecoration(
-                  hintText: "Precio de Oferta",
-                  labelText: "Precio de Oferta",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                  )
-              )
-              ,
-              onChanged: (value){
-                setState(() {
-                  priceOffer = int.parse(value);
-                });
-              },
-            ),
+              TextField(
+                decoration: const InputDecoration(
+                    hintText: "Precio de Oferta",
+                    labelText: "Precio de Oferta",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    )
+                )
+                ,
+                onChanged: (value){
+                  setState(() {
+                    priceOffer = int.parse(value);
+                  });
+                },
+              ),
             ElevatedButton(onPressed: (){
-              createService();
-            }, child: const Text("Crear"))
+              editService();
+            }, child: const Text("Actualizar"))
           ],
         ),
       ),
     );
   }
 
-  Future<void> createService() async{
+  Future<void> editService() async{
     newService service = newService(name: name, price: price, location: location, img_url: img_url, description: description, score: score, agencyId: agencyId, priceOffer: priceOffer, isOffer: isOffer);
     var json = jsonEncode(service.toJson());
-    int status = await AgencyApi.postService(json);
+    //print(json);
+    //print(serviceId);
+    int status = await AgencyApi.updateService(json, serviceId);
     showMessage(status);
 
   }
@@ -215,9 +221,11 @@ class _CreateServiceState extends State<CreateService> {
     }
   }
 
-  void setAgencyId(){
+
+  void setIds(){
     setState(() {
-      agencyId = "6426479b9e322306c078f81b";
+      agencyId = widget.aId;
+      serviceId = widget.sId;
     });
   }
 }

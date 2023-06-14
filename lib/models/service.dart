@@ -25,8 +25,9 @@ class Services{
 
 }
 
-//este de aca en teoria para todos los requests pero aun no lo pruebo
+//este de aca solo es para get
 class AgencyDetails{
+  final String id;
   final int score;
   final String name;
   final String email;
@@ -38,6 +39,7 @@ class AgencyDetails{
   final String type_user;
 
   AgencyDetails({
+    required this.id,
     required this.score,
     required this.name,
     required this.email,
