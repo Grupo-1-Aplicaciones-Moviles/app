@@ -114,6 +114,29 @@ class _ProfileTouristScreenState extends State<ProfileTouristScreen>{
                     )
                   ],
                 ),
+              ),
+              const Card(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 8.0),
+                          child: Text("Reseñas", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Tu agencia aún no cuenta con reseñas disponibles :(")
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               )
             ],
           )
