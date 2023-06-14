@@ -82,7 +82,7 @@ class _ofertasState extends State<ofertas> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 15.0, top: 10.0),
-                      child: Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 15.0,top: 10.0),
