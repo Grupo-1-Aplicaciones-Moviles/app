@@ -33,7 +33,6 @@ class AgencyDetails{
   final String email;
   final String description;
   final String location;
-  final String password;
   final String phoneNumber;
   final String img_url;
   final String type_user;
@@ -45,9 +44,22 @@ class AgencyDetails{
     required this.email,
     required this.description,
     required this.location,
-    required this.password,
     required this.phoneNumber,
     required this.img_url,
     required this.type_user
   });
+
+  factory AgencyDetails.fromJson(Map<String, dynamic> json){
+    return AgencyDetails(
+        id: json['_id'],
+        score: json['score'],
+        name: json['name'],
+        email: json['email'],
+        description: json['description'],
+        location: json['location'],
+        phoneNumber: json['phoneNumber'],
+        img_url: json['img_url'],
+        type_user: json['type_user']);
+  }
+
 }
