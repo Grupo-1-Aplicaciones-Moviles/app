@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+//este de aca es solo para get services
 class Services{
   final String id;
   final String name;
@@ -8,8 +9,7 @@ class Services{
   final String img_url;
   final String description;
   final int score;
-  final String agencyName;
-  final int agencyScore;
+  final AgencyDetails agency;
 
 
   Services({
@@ -20,18 +20,46 @@ class Services{
     required this.img_url,
     required this.description,
     required this.score,
-    required this.agencyName,
-    required this.agencyScore
+    required this.agency
   });
 
 }
 
+//este de aca solo es para get
 class AgencyDetails{
+  final String id;
   final int score;
   final String name;
+  final String email;
+  final String description;
+  final String location;
+  final String phoneNumber;
+  final String img_url;
+  final String type_user;
 
   AgencyDetails({
+    required this.id,
     required this.score,
-    required this.name
+    required this.name,
+    required this.email,
+    required this.description,
+    required this.location,
+    required this.phoneNumber,
+    required this.img_url,
+    required this.type_user
   });
+
+  factory AgencyDetails.fromJson(Map<String, dynamic> json){
+    return AgencyDetails(
+        id: json['_id'],
+        score: json['score'],
+        name: json['name'],
+        email: json['email'],
+        description: json['description'],
+        location: json['location'],
+        phoneNumber: json['phoneNumber'],
+        img_url: json['img_url'],
+        type_user: json['type_user']);
+  }
+
 }

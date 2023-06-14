@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:go2climb/models/newService.dart';
 import 'package:go2climb/models/service.dart';
+import 'package:go2climb/screens/create_service.dart';
 import 'package:go2climb/services/agencyApi.dart' ;
 import 'package:go2climb/widgets/myDrawer.dart';
 import 'package:go2climb/widgets/offers.dart';
@@ -17,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Services> services = [];
+  String userType = 'agency';
 
   @override
   void initState() {
@@ -68,9 +71,18 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
 
         ) ,
-        floatingActionButton: FloatingActionButton(
-          onPressed: (){print('boton');},
-        ),
+
+        floatingActionButton: userType.contains('agency') ? FloatingActionButton(
+          backgroundColor: const Color(0xFF9CD4E7),
+          child: const Icon(Icons.add),
+          onPressed: (){
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                builder: (context) => CreateService())
+                );
+            },
+        ) : Container(),
       ),
     );
   }
