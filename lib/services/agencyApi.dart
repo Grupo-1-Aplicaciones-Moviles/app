@@ -48,13 +48,12 @@ class AgencyApi{
   static Future<int> updateService(dynamic service, String id) async{
     final headers = {"Content-type": "application/json"};
     var url = 'http://10.0.2.2:3000/api/v1/services/$id';
-    print(url);
     final uri = Uri.parse(url);
     final json = service;
-    print(json);
+    //print(json);
     final response = await http.put(uri,headers: headers,body: json);
-    print('Status code: ${response.statusCode}');
-    print('Body: ${response.body}');
+    //print('Status code: ${response.statusCode}');
+    //print('Body: ${response.body}');
     return response.statusCode;
 
   }
