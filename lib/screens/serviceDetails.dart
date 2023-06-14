@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go2climb/models/activity.dart';
 import 'package:go2climb/models/service.dart';
+import 'package:go2climb/screens/edit_service.dart';
 import 'package:go2climb/services/activitiesApi.dart';
 
 class Detalle extends StatefulWidget {
@@ -13,7 +14,7 @@ class Detalle extends StatefulWidget {
 
 class _DetalleState extends State<Detalle> {
   late Services service;
-  String usertype = 'tourist';
+  String usertype = 'agency';
   List<Activity> activities = [];
 
 
@@ -21,7 +22,7 @@ class _DetalleState extends State<Detalle> {
   void initState() {
     super.initState();
     service = widget.service;
-    print(service.id);
+    //print(service.id);
     fetchActivities();
 
   }
@@ -42,7 +43,14 @@ class _DetalleState extends State<Detalle> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(onPressed: (){print("editar:" );},
+                  ElevatedButton(onPressed: (){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditService(aId: service.agency.id, sId: service.id)
+                        )
+                    );
+                    },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF9CD4E7),
                           foregroundColor: Colors.black,
