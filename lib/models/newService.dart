@@ -37,4 +37,17 @@ class newService{
         'isOffer': isOffer
 
       };
+
+  factory newService.fromJson(Map<String, dynamic> json){
+    return newService(
+        name: json['name'],
+        price: json['price'],
+        location: json['location'],
+        img_url: json['img_url'],
+        description: json['description'],
+        score: json['score'],
+        agencyId: json['agency_id'],
+        priceOffer: json['priceOffer'],
+        isOffer: json['isOffer']);
+  }
 }

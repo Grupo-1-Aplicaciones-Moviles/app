@@ -191,5 +191,14 @@ class _DetalleState extends State<Detalle> {
     });
 
   }
+
+  Future<void> fetchService() async{
+    final response = await activitiesApi.fetchActivitiesById(widget.service.id);
+    setState(() {
+      activities = response;
+    });
+
+  }
+
 }
 
