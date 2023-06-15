@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go2climb/screens/home.dart';
-import 'package:go2climb/screens/profile-tourist.dart';
+import 'package:go2climb/screens/profile-agency.dart';
 import 'package:go2climb/widgets/login.dart';
 
 class myDrawer extends StatefulWidget {
@@ -34,7 +34,7 @@ class _myDrawerState extends State<myDrawer> {
           ),
           InkWell(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileTouristScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileAgencyScreen()));
               }, child: ListTile(
             leading: Icon(Icons.person),
             title: Text('Perfil'),

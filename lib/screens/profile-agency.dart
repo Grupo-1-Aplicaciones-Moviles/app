@@ -4,16 +4,16 @@ import 'package:go2climb/models/service.dart';
 import 'package:go2climb/services/agencyApi.dart';
 import 'package:go2climb/widgets/myDrawer.dart';
 
-class ProfileTouristScreen extends StatefulWidget{
-    const ProfileTouristScreen({Key? key}) : super(key: key);
+class ProfileAgencyScreen extends StatefulWidget{
+    const ProfileAgencyScreen({Key? key}) : super(key: key);
 
     @override
-    State<ProfileTouristScreen> createState() => _ProfileTouristScreenState();
+    State<ProfileAgencyScreen> createState() => _ProfileAgencyScreenState();
 }
 
-class _ProfileTouristScreenState extends State<ProfileTouristScreen>{
+class _ProfileAgencyScreenState extends State<ProfileAgencyScreen>{
 
-  AgencyDetails agency = AgencyDetails(id: 'id', score: 0, name: 'name', email: 'email', description: 'description', location: 'location', phoneNumber: 'phoneNumber', img_url: 'img_url', type_user: 'type_user');
+  AgencyDetails agency = AgencyDetails(id: 'id', score: 0, name: 'name', email: 'email', description: 'description', location: 'location', phoneNumber: 'phoneNumber', img_url: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', type_user: 'type_user');
   List<newService> services = [];
 
   @override
@@ -32,7 +32,7 @@ class _ProfileTouristScreenState extends State<ProfileTouristScreen>{
           backgroundColor: const Color(0xFF9CD4E7),
           title: const Align(
             alignment: Alignment.centerLeft,
-            child: Text("Perfil Turista")
+            child: Text("Perfil Agencia")
           ),
         ),
           drawer: const myDrawer(),

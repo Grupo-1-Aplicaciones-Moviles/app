@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go2climb/models/activity.dart';
 import 'package:go2climb/models/service.dart';
 import 'package:go2climb/screens/edit_service.dart';
+import 'package:go2climb/screens/hire_service.dart';
 import 'package:go2climb/services/activitiesApi.dart';
 
 class Detalle extends StatefulWidget {
@@ -14,7 +15,8 @@ class Detalle extends StatefulWidget {
 
 class _DetalleState extends State<Detalle> {
   late Services service;
-  String usertype = 'agency';
+  //String usertype = 'agency';
+  String usertype = 'tourist';
   List<Activity> activities = [];
 
 
@@ -164,7 +166,12 @@ class _DetalleState extends State<Detalle> {
                       foregroundColor: Colors.black
                     ),
                     onPressed: () {
-                      print("solicitar");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HireService(sId: widget.service.id)
+                          )
+                      );
                     },
                     child: const Text('Solicitar'),
                   ),
