@@ -12,6 +12,7 @@ class myDrawer extends StatefulWidget {
 
 class _myDrawerState extends State<myDrawer> {
   String userType = 'agency';
+  String uId = '642617c49c44283965216abe';
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -26,16 +27,16 @@ class _myDrawerState extends State<myDrawer> {
           ),
           InkWell(
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-          }, child: ListTile(
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+          }, child: const ListTile(
             leading: Icon(Icons.home),
             title: Text('Mi inicio'),
             )
           ),
           InkWell(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileAgencyScreen()));
-              }, child: ListTile(
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileAgencyScreen(uId: uId)));
+              }, child: const ListTile(
             leading: Icon(Icons.person),
             title: Text('Perfil'),
           )
@@ -53,7 +54,7 @@ class _myDrawerState extends State<myDrawer> {
           InkWell(
               onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
-              }, child: ListTile(
+              }, child: const ListTile(
             leading: Icon(Icons.output),
             title: Text('Cerrar sesión'),
           )

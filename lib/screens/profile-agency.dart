@@ -6,7 +6,9 @@ import 'package:go2climb/services/agencyApi.dart';
 import 'package:go2climb/widgets/myDrawer.dart';
 
 class ProfileAgencyScreen extends StatefulWidget{
-    const ProfileAgencyScreen({Key? key}) : super(key: key);
+    const ProfileAgencyScreen({Key? key, required this.uId}) : super(key: key);
+
+    final String uId;
 
     @override
     State<ProfileAgencyScreen> createState() => _ProfileAgencyScreenState();
@@ -157,7 +159,7 @@ class _ProfileAgencyScreenState extends State<ProfileAgencyScreen>{
   }
 
   Future<void> fetchAgency() async{
-    AgencyDetails response = await AgencyApi.getAgencyById('642617c49c44283965216abe');
+    AgencyDetails response = await AgencyApi.getAgencyById(widget.uId);
 
     setState(() {
     agency = response;
@@ -166,7 +168,7 @@ class _ProfileAgencyScreenState extends State<ProfileAgencyScreen>{
   }
 
   Future<void>fetchServices() async{
-    dynamic response = await AgencyApi.getSeviceByAgencyId('642617c49c44283965216abe');
+    dynamic response = await AgencyApi.getSeviceByAgencyId(widget.uId);
     setState(() {
       services = response;
     });
