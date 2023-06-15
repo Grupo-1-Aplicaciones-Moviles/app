@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go2climb/screens/clients.dart';
 import 'package:go2climb/screens/home.dart';
 import 'package:go2climb/screens/profile-agency.dart';
 import 'package:go2climb/widgets/login.dart';
@@ -25,39 +26,39 @@ class _myDrawerState extends State<myDrawer> {
             ),
             child: Text(''),
           ),
-          InkWell(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
-          }, child: const ListTile(
-            leading: Icon(Icons.home),
-            title: Text('Mi inicio'),
-            )
+          ListTile(
+          leading: const Icon(Icons.home),
+          title: const Text('Mi inicio'),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+              }
           ),
-          InkWell(
+          ListTile(
+            leading: const Icon(Icons.person),
+            title: const Text('Perfil'),
               onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileAgencyScreen(uId: uId)));
-              }, child: const ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Perfil'),
-          )
+              }
           ),
           if (userType == 'agency')
-            const ListTile(
-              leading: Icon(Icons.accessibility),
-              title: Text('Mis clientes'),
+            ListTile(
+              leading: const Icon(Icons.accessibility),
+              title: const Text('Mis clientes'),
+              onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Clients(uId: uId)));
+                }
             ),
           if (userType == 'agency')
             const ListTile(
               leading: Icon(Icons.payment),
               title: Text('Cambiar Plan'),
             ),
-          InkWell(
-              onTap: (){
+          ListTile(
+            leading: const Icon(Icons.output),
+            title: const Text('Cerrar sesión'),
+            onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
-              }, child: const ListTile(
-            leading: Icon(Icons.output),
-            title: Text('Cerrar sesión'),
-          )
+              }
           ),
         ],
       ),

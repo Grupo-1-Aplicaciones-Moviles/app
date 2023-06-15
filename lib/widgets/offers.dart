@@ -36,7 +36,6 @@ class _ofertasState extends State<ofertas> {
             final rating = service.score.toDouble();
             final agencyRating = service.agency.score.toDouble();
 
-
             return InkWell(
               onTap: (){
                 Navigator.push(
