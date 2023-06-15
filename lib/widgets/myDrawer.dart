@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go2climb/screens/clients.dart';
 import 'package:go2climb/screens/home.dart';
 import 'package:go2climb/screens/profile-agency.dart';
+import 'package:go2climb/screens/profile-tourist.dart';
 import 'package:go2climb/widgets/login.dart';
 
 class myDrawer extends StatefulWidget {
@@ -13,7 +14,10 @@ class myDrawer extends StatefulWidget {
 
 class _myDrawerState extends State<myDrawer> {
   String userType = 'agency';
+  // id agencia
   String uId = '642617c49c44283965216abe';
+  //id turista
+  // String uId = '64260f7d02a4e333cbbb4d88';
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -33,6 +37,7 @@ class _myDrawerState extends State<myDrawer> {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
               }
           ),
+          if (userType == 'agency')
           ListTile(
             leading: const Icon(Icons.person),
             title: const Text('Perfil'),
@@ -40,7 +45,15 @@ class _myDrawerState extends State<myDrawer> {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileAgencyScreen(uId: uId)));
               }
           ),
-          if (userType == 'agency')
+          if (userType == 'tourist')
+            ListTile(
+                leading: const Icon(Icons.person),
+                title: const Text('Perfil'),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileTourist(uId: uId)));
+                }
+            ),
+           if (userType == 'agency')
             ListTile(
               leading: const Icon(Icons.accessibility),
               title: const Text('Mis clientes'),
