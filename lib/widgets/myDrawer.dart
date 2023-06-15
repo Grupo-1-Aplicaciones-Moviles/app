@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go2climb/screens/clients.dart';
 import 'package:go2climb/screens/home.dart';
+import 'package:go2climb/screens/profile-agency.dart';
 import 'package:go2climb/screens/profile-tourist.dart';
 import 'package:go2climb/widgets/login.dart';
 
@@ -12,6 +14,10 @@ class myDrawer extends StatefulWidget {
 
 class _myDrawerState extends State<myDrawer> {
   String userType = 'agency';
+  // id agencia
+  String uId = '642617c49c44283965216abe';
+  //id turista
+  // String uId = '64260f7d02a4e333cbbb4d88';
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -24,39 +30,48 @@ class _myDrawerState extends State<myDrawer> {
             ),
             child: Text(''),
           ),
-          InkWell(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-          }, child: ListTile(
-            leading: Icon(Icons.home),
-            title: Text('Mi inicio'),
-            )
-          ),
-          InkWell(
+          ListTile(
+          leading: const Icon(Icons.home),
+          title: const Text('Mi inicio'),
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileTouristScreen()));
-              }, child: ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Perfil'),
-          )
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+              }
           ),
           if (userType == 'agency')
-            const ListTile(
-              leading: Icon(Icons.accessibility),
-              title: Text('Mis clientes'),
+          ListTile(
+            leading: const Icon(Icons.person),
+            title: const Text('Perfil'),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileAgencyScreen(uId: uId)));
+              }
+          ),
+          if (userType == 'tourist')
+            ListTile(
+                leading: const Icon(Icons.person),
+                title: const Text('Perfil'),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileTourist(uId: uId)));
+                }
+            ),
+           if (userType == 'agency')
+            ListTile(
+              leading: const Icon(Icons.accessibility),
+              title: const Text('Mis clientes'),
+              onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Clients(uId: uId)));
+                }
             ),
           if (userType == 'agency')
             const ListTile(
               leading: Icon(Icons.payment),
               title: Text('Cambiar Plan'),
             ),
-          InkWell(
-              onTap: (){
+          ListTile(
+            leading: const Icon(Icons.output),
+            title: const Text('Cerrar sesión'),
+            onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
-              }, child: ListTile(
-            leading: Icon(Icons.output),
-            title: Text('Cerrar sesión'),
-          )
+              }
           ),
         ],
       ),

@@ -1,5 +1,7 @@
 import 'dart:ffi';
 
+import 'package:flutter/foundation.dart';
+
 //este de aca es solo para get services
 class Services{
   final String id;
@@ -22,6 +24,18 @@ class Services{
     required this.score,
     required this.agency
   });
+
+  factory Services.fromJson(Map<String, dynamic> e){
+    return Services(
+        id: e['_id'],
+        name: e['name'],
+        price: e['price'],
+        location: e['location'],
+        img_url: e['img_url'],
+        description: e['description'],
+        score: e['score'],
+        agency: AgencyDetails.fromJson(e['agency_id']));
+  }
 
 }
 

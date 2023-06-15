@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go2climb/models/newService.dart';
 import 'package:go2climb/models/service.dart';
 import 'package:go2climb/screens/create_service.dart';
+import 'package:go2climb/screens/search.dart';
 import 'package:go2climb/services/agencyApi.dart' ;
 import 'package:go2climb/widgets/myDrawer.dart';
 import 'package:go2climb/widgets/offers.dart';
@@ -40,7 +41,11 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
               icon: const Icon(Icons.search),
               onPressed: (){
-                print("search");
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Search())
+                );
               },
             )
           ],
