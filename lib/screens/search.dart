@@ -60,12 +60,12 @@ class _SearchState extends State<Search> {
                   subtitle: Text(service.location),
                   trailing: Text('\$${service.price}'),
                   onTap: (){
-                    //Navigator.push(
-                      //context,
-                      //MaterialPageRoute(
-                        //builder: (context) => Detalle(service: service),
-                      //),
-                    //);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Detalle(serviceId: service.id),
+                      ),
+                    );
                   },
                 );
               },

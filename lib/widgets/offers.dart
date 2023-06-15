@@ -42,7 +42,7 @@ class _ofertasState extends State<ofertas> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Detalle(service: service),
+                    builder: (context) => Detalle(serviceId: service.id),
                   ),
                 );
               },

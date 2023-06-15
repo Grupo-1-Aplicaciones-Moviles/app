@@ -1,6 +1,7 @@
 
 //este de aca se usa para post y put service
 class newService{
+  final String id;
   final String name;
   final int price;
   final String location;
@@ -13,6 +14,7 @@ class newService{
 
 
   newService({
+    required this.id,
     required this.name,
     required this.price,
     required this.location,
@@ -26,6 +28,7 @@ class newService{
 
   Map<String, dynamic> toJson() =>
       {
+        //'_id': id,
         'name': name,
         'price': price,
         'location': location,
@@ -40,6 +43,7 @@ class newService{
 
   factory newService.fromJson(Map<String, dynamic> json){
     return newService(
+        id: json['_id'],
         name: json['name'],
         price: json['price'],
         location: json['location'],
