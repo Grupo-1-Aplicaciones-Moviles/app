@@ -86,7 +86,8 @@ class _CreateServiceState extends State<CreateService> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0))
                       )
-                  )
+                  ),
+                keyboardType: TextInputType.number
               ,
               onChanged: (value){
                 setState(() {
@@ -152,8 +153,8 @@ class _CreateServiceState extends State<CreateService> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20.0)),
                   )
-              )
-              ,
+              ),
+                keyboardType: TextInputType.number,
               onChanged: (value){
                 setState(() {
                   priceOffer = int.parse(value);

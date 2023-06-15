@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:go2climb/models/hiredService.dart';
+import 'package:go2climb/models/service.dart';
 import 'package:go2climb/services/hiredServiceApi.dart';
 
 class HireService extends StatefulWidget {
-  const HireService({Key? key, required this.sId}) : super(key: key);
-  final String sId;
+  const HireService({Key? key, required this.sId, required this.aId}) : super(key: key);
+  final Services sId;
+  final String aId;
 
   @override
   _HireServiceState createState() => _HireServiceState();
@@ -17,6 +19,7 @@ class _HireServiceState extends State<HireService> {
   String status = 'active';
   late String service_id;
   late String customer_id;
+  late String agency_id;
 
   @override
   void initState() {
@@ -30,26 +33,132 @@ class _HireServiceState extends State<HireService> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF9CD4E7),
-        title: Text('Pagar servicio'),
+        title: const Text('Pagar servicio'),
       ),
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF9CD4E7),
-                    foregroundColor: Colors.black
-                ),
-                onPressed: (){
-                payment();
-              }, child: const Text('Pagar'),
-
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: <Widget> [
+            Card(
+              child: Column(
+                children: [
+                  const Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text("Detalles de pago", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                      ),
+                    ],
+                  ),
+                  ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(widget.sId.img_url),
+                    ),
+                    title: Text(
+                      widget.sId.name
+                    ),
+                    subtitle: Text(
+                      widget.sId.location
+                    ),
+                    trailing: Text(
+                      "\$${widget.sId.price.toString()}"
+                    ),
+                  ),
+                ],
               ),
-            ],
-          )
-        ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 300,
+                    child: TextField(
+                      decoration: InputDecoration(
+                          hintText: "Nombres",
+                          labelText: "Nombres",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(20.0))
+                          )
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 300,
+                    child: TextField(
+                      decoration: InputDecoration(
+                          hintText: "Numero de Tarjeta",
+                          labelText: "Numero de Tarjeta",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(20.0))
+                          )
+                      ),
+                      keyboardType: TextInputType.number,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:<Widget> [
+                SizedBox(
+                  width: 145,
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: "CCV",
+                      labelText: "CCV",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0))
+                      )
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: SizedBox(
+                    width: 145,
+                    child: TextField(
+                      decoration: InputDecoration(
+                          hintText: "MM/YYYY",
+                          labelText: "Vencimiento",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(20.0))
+                          )
+                      ),
+                      keyboardType: TextInputType.datetime,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF9CD4E7),
+                      foregroundColor: Colors.black
+                  ),
+                  onPressed: (){
+                  payment();
+                }, child: const Text('Pagar'),
+
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -60,7 +169,7 @@ class _HireServiceState extends State<HireService> {
         context: context,
         builder: (BuildContext context) => AlertDialog(
           title: const Text('Exito'),
-          content: const Text('Servicio creado de forma exitosa'),
+          content: const Text('Se registro la compra de forma exitosa'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -94,13 +203,14 @@ class _HireServiceState extends State<HireService> {
 
   setIds(){
     setState(() {
-      service_id = widget.sId;
+      service_id = widget.sId.id;
+      agency_id = widget.aId;
       customer_id = '64260f7d02a4e333cbbb4d88';
     });
   }
 
   Future<void>payment() async{
-    hiredService service = hiredService(status: status, service_id: service_id, customer_id: customer_id);
+    hiredService service = hiredService(status: status, service_id: service_id, customer_id: customer_id, agency_id: agency_id);
     var json = jsonEncode(service.toJson());
     int code = await hiredServiceApi.postHiredService(json);
 

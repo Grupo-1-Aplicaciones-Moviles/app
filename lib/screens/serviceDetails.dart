@@ -169,7 +169,7 @@ class _DetalleState extends State<Detalle> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => HireService(sId: widget.service.id)
+                              builder: (context) => HireService(sId: service, aId: service.agency.id)
                           )
                       );
                     },

@@ -80,6 +80,31 @@ class AgencyApi{
           isOffer: e['isOffer']);
 
     }).toList();
+    //print(transformed);
+    return transformed;
+  }
+
+  static Future<List<newService>> searchService(String name) async{
+    var url = 'http://10.0.2.2:3000/api/v1/services/name/$name';
+    final uri = Uri.parse(url);
+    final response = await http.get(uri);
+    final body = response.body;
+    final json = jsonDecode(body);
+    print(json);
+    final results = json as List<dynamic>;
+    final transformed = results.map((e) {
+      return newService(
+          name: e['name'],
+          price: e['price'],
+          location: e['location'],
+          img_url: e['img_url'],
+          description: e['description'],
+          score: e['score'],
+          agencyId: e['agency_id'],
+          priceOffer: e['priceOffer'],
+          isOffer: e['isOffer']);
+
+    }).toList();
     print(transformed);
     return transformed;
   }
