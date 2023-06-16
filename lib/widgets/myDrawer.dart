@@ -13,11 +13,11 @@ class myDrawer extends StatefulWidget {
 }
 
 class _myDrawerState extends State<myDrawer> {
-  String userType = 'agency';
+  String userType = 'tourist';
   // id agencia
-  String uId = '642617c49c44283965216abe';
+  //  String uId = '642617c49c44283965216abe';
   //id turista
-  // String uId = '64260f7d02a4e333cbbb4d88';
+   String uId = '64260f7d02a4e333cbbb4d88';
   @override
   Widget build(BuildContext context) {
     return Drawer(

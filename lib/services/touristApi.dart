@@ -5,6 +5,7 @@ import 'package:go2climb/models/tourist.dart';
 class touristApi{
   static Future<tourist> fetchbyId(String id) async{
     var url = 'http://10.0.2.2:3000/api/v1/customers/$id';
+    print(url);
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     final body = response.body;
