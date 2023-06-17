@@ -156,13 +156,13 @@ class _LoginFormState extends State<Login>{
                 children: [
                   Expanded(
                     child:  ElevatedButton(
-                      child: Text("Registrate y disfruta tu aventura"),
                       onPressed: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterTourist()));
                       },
                       style: ElevatedButton.styleFrom(
                           primary: Color(0xFF9CD4E7)
                       ),
+                      child: const Text("Registrate y disfruta tu aventura"),
                   ),
 
                   )
@@ -227,7 +227,7 @@ class _LoginFormState extends State<Login>{
 
     var response = await authService.loginAgency(json);
     var decoded = jsonDecode(response.body);
-    print(decoded);
+    //print(decoded);
 
     if(response.statusCode == 200){
       await storage.write(key: 'id', value: decoded['user']['_id']);

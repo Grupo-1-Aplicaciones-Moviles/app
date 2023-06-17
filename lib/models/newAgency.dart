@@ -19,4 +19,19 @@ class newAgency{
     required this.description,
     required this.ruc
   });
+
+  Map<String, dynamic> toJson() =>
+      {
+        'name': name,
+        'password': password,
+        'img_url': img_url,
+        'email': email,
+        'phoneNumber': phoneNumber,
+        'type_user': type_user,
+        'ruc': ruc,
+        'description': description,
+        'location': location,
+
+      };
+
 }

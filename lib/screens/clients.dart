@@ -26,38 +26,50 @@ class _ClientsState extends State<Clients> {
       appBar: AppBar(title: const Text("Mis Clientes"),
           backgroundColor: const Color(0xFF9CD4E7)),
       body: SingleChildScrollView(
-        child: ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: services.length,
-            itemBuilder: (context, index){
-              final service = services[index];
-              return Card(
-                child: ListTile(
-                  title: Text('${service.customer} ${service.lastName}'),
-                  leading: Icon(Icons.circle_rounded,
-                  color: service.status == 'active' ? Colors.lightGreenAccent : Colors.red),
-                  trailing: Text('\$ ${service.price.toString()}'),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(service.serviceName),
-                      Text(service.email),
-                      Text(service.status),
-                      Text(service.phone)
-                    ],
-                  ),
-                ),
-              );
-            }),
+        child: Column(
+          children: [
+            if(services.isEmpty)
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text("No cuentas con clientes :(", style: TextStyle(fontWeight: FontWeight.bold),),
+                  )
+                ],
+              ),
+            ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: services.length,
+                itemBuilder: (context, index){
+                  final service = services[index];
+                  return Card(
+                    child: ListTile(
+                      title: Text('${service.customer} ${service.lastName}'),
+                      leading: Icon(Icons.circle_rounded,
+                      color: service.status == 'active' ? Colors.lightGreenAccent : Colors.red),
+                      trailing: Text('\$ ${service.price.toString()}'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(service.serviceName),
+                          Text(service.email),
+                          Text(service.status),
+                          Text(service.phone)
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+          ],
+        ),
       ),
     );
   }
   
   Future<void>getHiredServices() async{
     var response = await hiredServiceApi.getAgencyHiredServices(widget.uId);
-    print(widget.uId);
-    print(response);
     setState(() {
       services = response;
     });

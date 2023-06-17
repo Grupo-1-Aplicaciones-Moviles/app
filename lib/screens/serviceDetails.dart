@@ -17,7 +17,7 @@ class Detalle extends StatefulWidget {
 
 class _DetalleState extends State<Detalle> {
   final storage = const FlutterSecureStorage();
-
+  String uId = '';
   String usertype = '';
   List<Activity> activities = [];
   AgencyDetails agency = AgencyDetails(id: 'id', score: 0, name: 'name', email: 'email', description: 'description', location: 'location', phoneNumber: 'phoneNumber', img_url: 'https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image-300x225.png', type_user: 'type_user');
@@ -29,6 +29,7 @@ class _DetalleState extends State<Detalle> {
     setParams();
     fetchActivities();
     fetchService();
+
 
   }
 
@@ -42,7 +43,7 @@ class _DetalleState extends State<Detalle> {
       body: SingleChildScrollView(
         child: Column(
           children:<Widget> [
-            if(usertype == 'agency')
+            if(usertype == 'agency' && service.agency.id == uId)
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Row(
@@ -200,15 +201,17 @@ class _DetalleState extends State<Detalle> {
     setState(() {
       service = response;
     });
-
   }
 
   void setParams() async{
 
 
     var type = await storage.read(key: 'type');
+    var id = await storage.read(key: 'id');
+
     setState(() {
       usertype = type!;
+      uId = id!;
     });
   }
 

@@ -23,5 +23,22 @@ class authService{
     return response;
   }
 
+  static Future<int> postAgency(dynamic data) async{
+    final headers = {"Content-type": "application/json"};
+    const url = 'http://10.0.2.2:3000/api/v1/auth/agencies/register';
+    final uri = Uri.parse(url);
+    final json = data;
+    final response = await http.post(uri,headers: headers,body: json);
+    return response.statusCode;
+    }
 
-}
+  static Future<int> postTourist(dynamic data) async{
+    final headers = {"Content-type": "application/json"};
+    const url = 'http://10.0.2.2:3000/api/v1/auth/customers/register';
+    final uri = Uri.parse(url);
+    final json = data;
+    final response = await http.post(uri,headers: headers,body: json);
+    return response.statusCode;
+  }
+
+  }
