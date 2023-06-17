@@ -25,35 +25,39 @@ class _ClientsState extends State<Clients> {
     return Scaffold(
       appBar: AppBar(title: const Text("Mis Clientes"),
           backgroundColor: const Color(0xFF9CD4E7)),
-      body: ListView.builder(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          itemCount: services.length,
-          itemBuilder: (context, index){
-            final service = services[index];
-            return Card(
-              child: ListTile(
-                title: Text('${service.customer} ${service.lastName}'),
-                leading: Icon(Icons.circle_rounded,
-                color: service.status == 'active' ? Colors.lightGreenAccent : Colors.red),
-                trailing: Text('\$ ${service.price.toString()}'),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(service.serviceName),
-                    Text(service.email),
-                    Text(service.status),
-                    Text(service.phone)
-                  ],
+      body: SingleChildScrollView(
+        child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: services.length,
+            itemBuilder: (context, index){
+              final service = services[index];
+              return Card(
+                child: ListTile(
+                  title: Text('${service.customer} ${service.lastName}'),
+                  leading: Icon(Icons.circle_rounded,
+                  color: service.status == 'active' ? Colors.lightGreenAccent : Colors.red),
+                  trailing: Text('\$ ${service.price.toString()}'),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(service.serviceName),
+                      Text(service.email),
+                      Text(service.status),
+                      Text(service.phone)
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+      ),
     );
   }
   
   Future<void>getHiredServices() async{
     var response = await hiredServiceApi.getAgencyHiredServices(widget.uId);
+    print(widget.uId);
+    print(response);
     setState(() {
       services = response;
     });

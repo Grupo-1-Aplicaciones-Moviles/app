@@ -99,6 +99,16 @@ class _ProfileAgencyScreenState extends State<ProfileAgencyScreen>{
                         ),
                       ],
                     ),
+                    if (services.isEmpty)
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("No cuentas con Servicios disponibles :(")
+                          ],
+                        ),
+                      ),
                     ListView.builder(
                       itemCount: services.length,
                       scrollDirection: Axis.vertical,

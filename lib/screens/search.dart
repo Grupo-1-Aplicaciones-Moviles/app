@@ -40,10 +40,10 @@ class _SearchState extends State<Search> {
                 )
                 ,
                 onChanged: (value){
-                  setState(() {
+
                     word = value;
-                  });
-                },
+                  }
+
               ),
             ),
             ListView.builder(

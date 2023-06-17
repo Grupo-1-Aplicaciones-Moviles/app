@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go2climb/screens/clients.dart';
 import 'package:go2climb/screens/home.dart';
 import 'package:go2climb/screens/profile-agency.dart';
@@ -13,11 +14,21 @@ class myDrawer extends StatefulWidget {
 }
 
 class _myDrawerState extends State<myDrawer> {
-  String userType = 'agency';
-  // id agencia
-  String uId = '642617c49c44283965216abe';
-  //id turista
-  // String uId = '64260f7d02a4e333cbbb4d88';
+
+  var storage = FlutterSecureStorage();
+
+  String userType = '';
+  String uId = '';
+
+
+  @override
+  void initState() {
+    super.initState();
+    setParams();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -45,7 +56,7 @@ class _myDrawerState extends State<myDrawer> {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileAgencyScreen(uId: uId)));
               }
           ),
-          if (userType == 'tourist')
+          if (userType == 'customer')
             ListTile(
                 leading: const Icon(Icons.person),
                 title: const Text('Perfil'),
@@ -70,11 +81,32 @@ class _myDrawerState extends State<myDrawer> {
             leading: const Icon(Icons.output),
             title: const Text('Cerrar sesión'),
             onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                logOut();
+
               }
           ),
         ],
       ),
     );
+  }
+
+  void setParams() async{
+    var type = await storage.read(key: 'type');
+    var id = await storage.read(key: 'id');
+    setState(() {
+      userType = type!;
+      uId = id!;
+    });
+    print(uId);
+  }
+
+  void logOut() async{
+    await storage.deleteAll();
+    router();
+  }
+
+  void router(){
+    Navigator.popUntil(context, (route) => route.isFirst);
+    //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
   }
 }

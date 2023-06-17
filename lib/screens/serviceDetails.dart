@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go2climb/models/activity.dart';
 import 'package:go2climb/models/service.dart';
 import 'package:go2climb/screens/edit_service.dart';
@@ -15,9 +16,9 @@ class Detalle extends StatefulWidget {
 }
 
 class _DetalleState extends State<Detalle> {
-  //late Services service;
-  //String usertype = 'agency';
-  String usertype = 'tourist';
+  final storage = const FlutterSecureStorage();
+
+  String usertype = '';
   List<Activity> activities = [];
   AgencyDetails agency = AgencyDetails(id: 'id', score: 0, name: 'name', email: 'email', description: 'description', location: 'location', phoneNumber: 'phoneNumber', img_url: 'https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image-300x225.png', type_user: 'type_user');
   late Services service = Services(id: 'id', name: 'name', price: 0, location: 'location', img_url: 'https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image-300x225.png', description: 'description', score: 0, agency: agency);
@@ -25,8 +26,7 @@ class _DetalleState extends State<Detalle> {
   @override
   void initState() {
     super.initState();
-    //service = widget.service;
-    //print(service.id);
+    setParams();
     fetchActivities();
     fetchService();
 
@@ -153,7 +153,7 @@ class _DetalleState extends State<Detalle> {
                   ],
                 )
             ),
-            if (usertype == 'tourist')
+            if (usertype == 'customer')
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -201,6 +201,15 @@ class _DetalleState extends State<Detalle> {
       service = response;
     });
 
+  }
+
+  void setParams() async{
+
+
+    var type = await storage.read(key: 'type');
+    setState(() {
+      usertype = type!;
+    });
   }
 
 }
