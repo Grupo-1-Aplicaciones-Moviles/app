@@ -1,9 +1,12 @@
+import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:go2climb/models/authModel.dart';
+import 'package:go2climb/services/auth.dart';
 import 'package:go2climb/widgets/registerAgency.dart';
 import 'package:go2climb/widgets/registerTourist.dart';
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../screens/home.dart';
 
 
@@ -13,28 +16,32 @@ class Login extends StatefulWidget{
 }
 
 class _LoginFormState extends State<Login>{
+
+  final storage = FlutterSecureStorage();
   bool _obscureText = true;
-  late String _nombre;
+  bool userType = false;
   late String _email;
   late  String _password;
+
+  late authModel creds;
   
   @override
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Align(
+        title: const Align(
           alignment: Alignment.center,
           child: Text("Iniciar Sesion",
           ),
         ),
       ),
       body: ListView(
-        padding: EdgeInsets.all(30.0),
+        padding: const EdgeInsets.all(30.0),
         children:<Widget> [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                   "Te damos la bienvenida a Go2Climb",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -42,14 +49,14 @@ class _LoginFormState extends State<Login>{
                 ),
                 textAlign: TextAlign.left,
               ),
-              Divider(
+              const Divider(
                 height: 18.0,
               ),
               TextField(
-                enableInteractiveSelection: false,
+                enableInteractiveSelection: true,
                 autofocus: true,
                 textCapitalization: TextCapitalization.characters,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "Correo electronico",
                   labelText: "Correo electronico",
                   border: OutlineInputBorder(
@@ -59,9 +66,8 @@ class _LoginFormState extends State<Login>{
                     )
                   )
                 ),
-                onSubmitted: (valor){
+                onChanged: (valor){
                   _email = valor;
-                  print("el email es $_email");
                 },
               ),
               TextField(
@@ -79,49 +85,68 @@ class _LoginFormState extends State<Login>{
                       });
                     },
                   ),
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(20.0),
                       bottomRight: Radius.circular(20.0)
                     )
                   )
                 ),
-                onSubmitted: (valor){
+                onChanged: (valor){
                   _password = valor;
                 },
               ),
               TextButton(
-                child: Text("¿Has olvidado tu contraseña?"),
                 onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => forgetPassword()));
                 },
                 style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
                   textStyle: MaterialStateProperty.all<TextStyle>(
-                  TextStyle(
+                  const TextStyle(
                     color: Colors.white, // Color del texto resaltado
                     fontWeight: FontWeight.bold, // Estilo de fuente en negrita
                     ),
                   ),
                 ),
+                child: const Text("¿Has olvidado tu contraseña?"),
               ),
+
               Row(
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      child: Text("Iniciar Sesion"),
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                        loginTourist();
+
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Color(0xFF9CD4E7)
+                        primary: const Color(0xFF9CD4E7)
                       ),
+                      child: const Text("Iniciar Sesion Turista"),
                   ),
                   )
 
                 ],
               ),
-              Text("¿Aún no tienes una cuenta?",
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: (){
+                        loginAgency();
+
+                      },
+                      style: ElevatedButton.styleFrom(
+                          primary: const Color(0xFF9CD4E7)
+                      ),
+                      child: const Text("Iniciar Sesion Agencia"),
+                    ),
+                  )
+
+                ],
+              ),
+              const Text("¿Aún no tienes una cuenta?",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -131,13 +156,13 @@ class _LoginFormState extends State<Login>{
                 children: [
                   Expanded(
                     child:  ElevatedButton(
-                      child: Text("Registrate y disfruta tu aventura"),
                       onPressed: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterTourist()));
                       },
                       style: ElevatedButton.styleFrom(
                           primary: Color(0xFF9CD4E7)
                       ),
+                      child: const Text("Registrate y disfruta tu aventura"),
                   ),
 
                   )
@@ -148,13 +173,13 @@ class _LoginFormState extends State<Login>{
                 children: [
                   Expanded(
                       child:  ElevatedButton(
-                          child: Text("Registrate y ofrece servicios turisticos"),
                           onPressed: (){
                             Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterAgency()));
                           },
                         style: ElevatedButton.styleFrom(
-                            primary: Color(0xFF9CD4E7)
+                            primary: const Color(0xFF9CD4E7)
                         ),
+                          child: const Text("Registrate y ofrece servicios turisticos"),
                       ),
 
                   )
@@ -171,7 +196,70 @@ class _LoginFormState extends State<Login>{
       ),
     );
   }
-  
+  void navigate(){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+  }
+
+  Future<void> loginTourist() async{
+
+    creds = authModel(email: _email, password: _password);
+    var json = creds.toJson();
+
+    var response = await authService.loginTourist(json);
+    var decoded = jsonDecode(response.body);
+
+    if(response.statusCode == 200){
+    await storage.write(key: 'id', value: decoded['user']['_id']);
+    await storage.write(key: 'name', value: decoded['user']['name']);
+    await storage.write(key: 'type', value: decoded['user']['type_user']);
+    navigate();
+    }
+    else{
+      showMessage();
+    }
+
+  }
+
+  Future<void> loginAgency() async{
+
+    creds = authModel(email: _email, password: _password);
+    var json = creds.toJson();
+
+    var response = await authService.loginAgency(json);
+    var decoded = jsonDecode(response.body);
+    //print(decoded);
+
+    if(response.statusCode == 200){
+      await storage.write(key: 'id', value: decoded['user']['_id']);
+      await storage.write(key: 'name', value: decoded['user']['name']);
+      await storage.write(key: 'type', value: decoded['user']['type_user']);
+      navigate();
+    }
+    else{
+      showMessage();
+    }
+
+  }
+
+  void showMessage(){
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('Email o contraseña incorrectos'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, 'OK');
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+
+
 }
 
 class forgetPassword extends StatelessWidget{
@@ -182,7 +270,7 @@ class forgetPassword extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Align(
+        title: const Align(
           alignment: Alignment.center,
           child: Text("Recuperar Contraseña",
           ),
@@ -190,17 +278,17 @@ class forgetPassword extends StatelessWidget{
       ),
       body: Column(
         children:<Widget> [
-          Divider(
+          const Divider(
             height: 18.0,
           ),
-          Text(
+          const Text(
             "Ingrese su correo electrónico",
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 15.0,
             )
           ),
-          Divider(
+          const Divider(
             height: 18.0,
           ),
           TextField(
@@ -217,7 +305,7 @@ class forgetPassword extends StatelessWidget{
             onSubmitted: (valor){
               _email = valor;
             },
-          ),Divider(
+          ),const Divider(
             height: 260.0,
           ),
           Row(
@@ -397,86 +485,3 @@ class newPassword extends StatelessWidget{
   }
 }
 
-/*
-
-class RegisterTurist extends StatelessWidget{
-  late String _email;
-  late String _password;
-  bool _obscureText = true;
-  @override
-
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Align(
-          alignment: Alignment.center,
-          child: Text("Registrarte",),
-        ),
-      ),
-      body:  ListView(
-    padding: EdgeInsets.all(30.0),
-    children:<Widget> [
-            Divider(
-             height: 18.0,
-            ),
-            Text(
-              "Te damos la bienvenida a GO2Climb",
-             style: TextStyle(
-               fontWeight: FontWeight.bold,
-               fontSize: 15.0,
-              ),
-             textAlign: TextAlign.center,
-            ),
-            TextField(
-              enableInteractiveSelection: false,
-              autofocus: true,
-              textCapitalization: TextCapitalization.characters,
-              decoration: InputDecoration(
-                  hintText: "correo electrónico",
-                  labelText: "correo electrónico",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20.0),
-                        topLeft: Radius.circular(20.0)
-
-                      )
-                  )
-              ),
-              onSubmitted: (valor){
-                _email = valor;
-              },
-             ),
-           TextField(
-                 obscureText: _obscureText,
-                decoration: InputDecoration(
-                hintText: "Contraseña",
-                labelText: "Contraseña",
-                suffixIcon: IconButton(
-                 icon:Icon(
-                    _obscureText ? Icons.visibility_off : Icons.visibility,
-                  ),
-                  onPressed: (){
-                   setState(() {
-                      _obscureText=!_obscureText;
-                 });
-                 },
-             ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20.0),
-                    bottomRight: Radius.circular(20.0)
-                )
-            )
-        ),
-        onSubmitted: (valor){
-          _password = valor;
-        },
-      ),
-
-
-      ]
-      ),
-    );
-  }
-}
- */

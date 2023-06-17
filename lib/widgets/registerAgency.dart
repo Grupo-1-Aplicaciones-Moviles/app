@@ -1,5 +1,9 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:go2climb/models/newAgency.dart';
+import 'package:go2climb/services/auth.dart';
 import 'package:go2climb/widgets/registerTourist.dart';
 
 import '../screens/home.dart';
@@ -24,19 +28,19 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Align(
+        title: const Align(
           alignment: Alignment.center,
           child: Text("Register",
           ),
         ),
       ),
       body: ListView(
-        padding: EdgeInsets.all(30.0),
+        padding: const EdgeInsets.all(30.0),
         children:<Widget> [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "Te damos la bienvenida a Go2Climb",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -44,14 +48,14 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
                 ),
                 textAlign: TextAlign.left,
               ),
-              Divider(
+              const Divider(
                 height: 18.0,
               ),
               TextField(
                 enableInteractiveSelection: false,
                 autofocus: true,
                 textCapitalization: TextCapitalization.characters,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: "Correo electronico",
                     labelText: "Correo electronico",
                     border: OutlineInputBorder(
@@ -61,9 +65,8 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
                         )
                     )
                 ),
-                onSubmitted: (valor){
+                onChanged: (valor){
                   _email = valor;
-                  print("el email es $_email");
                 },
               ),
               TextField(
@@ -81,20 +84,20 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
                         });
                       },
                     ),
-                    border: OutlineInputBorder(
+                    border: const OutlineInputBorder(
                         borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(20.0),
                             bottomRight: Radius.circular(20.0)
                         )
                     )
                 ),
-                onSubmitted: (valor){
+                onChanged: (valor){
                   _password = valor;
                 },
               ),
 
 
-              Text(
+              const Text(
                 "Informacion de la Agencia",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -102,14 +105,14 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
                 ),
                 textAlign: TextAlign.left,
               ),
-              Divider(
+              const Divider(
                   height: 20.0
               ),
               TextField(
                 enableInteractiveSelection: false,
                 autofocus: true,
                 textCapitalization: TextCapitalization.characters,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: "nombre de la agencia",
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.only(
@@ -118,9 +121,8 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
                         )
                     )
                 ),
-                onSubmitted: (valor){
-                  _email = valor;
-                  print("el email es $_email");
+                onChanged: (valor){
+                  _name = valor;
                 },
 
               ),
@@ -131,7 +133,7 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
                       enableInteractiveSelection: false,
                       autofocus: true,
                       textCapitalization: TextCapitalization.characters,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           hintText: "numero de contacto",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.only(
@@ -139,9 +141,8 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
                               )
                           )
                       ),
-                      onSubmitted: (valor){
+                      onChanged: (valor){
                         _phone = valor;
-                        print("el email es $_phone");
                       },
                     ),
 
@@ -151,7 +152,7 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
                       enableInteractiveSelection: false,
                       autofocus: true,
                       textCapitalization: TextCapitalization.characters,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           hintText: "ruc",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.only(
@@ -159,9 +160,8 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
                               )
                           )
                       ),
-                      onSubmitted: (valor){
+                      onChanged: (valor){
                         _ruc = valor;
-                        print("el pais es $_ruc");
                       },
                     ),
 
@@ -172,10 +172,15 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
                 enableInteractiveSelection: false,
                 autofocus: true,
                 textCapitalization: TextCapitalization.characters,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: "Ubicacion fisica de la agencia",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)
+                        )
+                    )
                 ),
-                onSubmitted: (valor){
+
+                onChanged: (valor){
                   _ubicacion = valor;
                 },
               ),
@@ -183,7 +188,7 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
                 enableInteractiveSelection: false,
                 autofocus: true,
                 textCapitalization: TextCapitalization.characters,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: "Descripcion de la agencia",
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.only(
@@ -192,12 +197,12 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
                         )
                     )
                 ),
-                onSubmitted: (valor){
+                onChanged: (valor){
                   description = valor;
                 },
 
               ),
-              Divider(
+              const Divider(
                 height: 20.0,
               ),
 
@@ -214,7 +219,7 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
                       },
                     ),
                   ),
-                  Expanded(
+                  const Expanded(
                     child: Text(
                       "Acepto los terminos y condiciones de Go2Climb",
                       style: TextStyle(
@@ -230,9 +235,9 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
                 children: [
                   Expanded(
                     child:  ElevatedButton(
-                      child: Text("Continuar"),
+                      child: const Text("Continuar"),
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPlan()));
+                        register();
                       },
                       style: ElevatedButton.styleFrom(
                           primary: Color(0xFF9CD4E7)
@@ -253,6 +258,38 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
       ),
     );
   }
+  void showMessage(){
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('Ocurrio un error al '),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, 'OK');
+                Navigator.pop(context);
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+  }
+  Future<void> register() async{
+
+    newAgency agency = newAgency(type_user: 'agency', img_url: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+        phoneNumber: _phone, email: _email, password: _password, name: _name, location: _ubicacion, description: description, ruc: _ruc);
+    var json = jsonEncode(agency.toJson());
+    var response = await authService.postAgency(json);
+    if(response == 200){
+      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPlan()));
+    }
+    else
+      showMessage();
+  }
+
+
 
 }
 
@@ -302,7 +339,7 @@ class _RegisterPlanFormState extends State<RegisterPlan>{
                 height: 18.0,
               ),
               SizedBox(
-                height: 200,
+                height: 230,
                 child: Row(
                   children: [
                     Container(

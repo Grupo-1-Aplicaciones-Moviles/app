@@ -90,7 +90,8 @@ class _EditServiceState extends State<EditService> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0))
                   )
-              )
+              ),
+                keyboardType: TextInputType.number
               ,
               onChanged: (value){
                 setState(() {
@@ -156,7 +157,8 @@ class _EditServiceState extends State<EditService> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     )
-                )
+                ),
+                  keyboardType: TextInputType.number
                 ,
                 onChanged: (value){
                   setState(() {
@@ -174,7 +176,7 @@ class _EditServiceState extends State<EditService> {
   }
 
   Future<void> editService() async{
-    newService service = newService(name: name, price: price, location: location, img_url: img_url, description: description, score: score, agencyId: agencyId, priceOffer: priceOffer, isOffer: isOffer);
+    newService service = newService(id:serviceId, name: name, price: price, location: location, img_url: img_url, description: description, score: score, agencyId: agencyId, priceOffer: priceOffer, isOffer: isOffer);
     var json = jsonEncode(service.toJson());
     //print(json);
     //print(serviceId);

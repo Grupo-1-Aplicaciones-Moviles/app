@@ -1,29 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go2climb/models/activity.dart';
 import 'package:go2climb/models/service.dart';
 import 'package:go2climb/screens/edit_service.dart';
+import 'package:go2climb/screens/hire_service.dart';
 import 'package:go2climb/services/activitiesApi.dart';
+import 'package:go2climb/services/agencyApi.dart';
 
 class Detalle extends StatefulWidget {
-  const Detalle({Key? key, required this.service}) : super(key: key);
-  final Services service;
+  const Detalle({Key? key, required this.serviceId}) : super(key: key);
+  final String serviceId;
 
   @override
   State<Detalle> createState() => _DetalleState();
 }
 
 class _DetalleState extends State<Detalle> {
-  late Services service;
-  String usertype = 'agency';
+  final storage = const FlutterSecureStorage();
+  String uId = '';
+  String usertype = '';
   List<Activity> activities = [];
-
+  AgencyDetails agency = AgencyDetails(id: 'id', score: 0, name: 'name', email: 'email', description: 'description', location: 'location', phoneNumber: 'phoneNumber', img_url: 'https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image-300x225.png', type_user: 'type_user');
+  late Services service = Services(id: 'id', name: 'name', price: 0, location: 'location', img_url: 'https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image-300x225.png', description: 'description', score: 0, agency: agency);
 
   @override
   void initState() {
     super.initState();
-    service = widget.service;
-    //print(service.id);
+    setParams();
     fetchActivities();
+    fetchService();
+
 
   }
 
@@ -37,7 +43,7 @@ class _DetalleState extends State<Detalle> {
       body: SingleChildScrollView(
         child: Column(
           children:<Widget> [
-            if(usertype == 'agency')
+            if(usertype == 'agency' && service.agency.id == uId)
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Row(
@@ -148,7 +154,7 @@ class _DetalleState extends State<Detalle> {
                   ],
                 )
             ),
-            if (usertype == 'tourist')
+            if (usertype == 'customer')
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -164,7 +170,12 @@ class _DetalleState extends State<Detalle> {
                       foregroundColor: Colors.black
                     ),
                     onPressed: () {
-                      print("solicitar");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HireService(sId: service, aId: service.agency.id)
+                          )
+                      );
                     },
                     child: const Text('Solicitar'),
                   ),
@@ -178,11 +189,31 @@ class _DetalleState extends State<Detalle> {
   }
 
   Future<void> fetchActivities() async{
-    final response = await activitiesApi.fetchActivitiesById(widget.service.id);
+    final response = await activitiesApi.fetchActivitiesById(widget.serviceId);
     setState(() {
       activities = response;
     });
 
   }
+
+  Future<void> fetchService() async{
+    final response = await AgencyApi.fetchServicebyId(widget.serviceId);
+    setState(() {
+      service = response;
+    });
+  }
+
+  void setParams() async{
+
+
+    var type = await storage.read(key: 'type');
+    var id = await storage.read(key: 'id');
+
+    setState(() {
+      usertype = type!;
+      uId = id!;
+    });
+  }
+
 }
 
