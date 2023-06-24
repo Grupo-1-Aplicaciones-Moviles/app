@@ -1,5 +1,9 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:go2climb/models/newCustomer.dart';
+import 'package:go2climb/services/auth.dart';
 import 'package:go2climb/widgets/registerTourist.dart';
 
 import '../screens/home.dart';
@@ -11,29 +15,31 @@ class RegisterTourist extends StatefulWidget{
 class _RegisterTouristFormState extends State<RegisterTourist>{
   bool _obscureText = true;
   late String _name;
+  late String _surname;
   late String _country;
   late String _phone;
   late String _email;
   late  String _password;
   bool isChecked = false;
+  bool terms = false;
 
   @override
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Align(
+        title: const Align(
           alignment: Alignment.center,
           child: Text("Register",
           ),
         ),
       ),
       body: ListView(
-        padding: EdgeInsets.all(30.0),
+        padding: const EdgeInsets.all(30.0),
         children:<Widget> [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "Te damos la bienvenida a Go2Climb",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -41,14 +47,14 @@ class _RegisterTouristFormState extends State<RegisterTourist>{
                 ),
                 textAlign: TextAlign.left,
               ),
-              Divider(
+              const Divider(
                 height: 18.0,
               ),
               TextField(
                 enableInteractiveSelection: false,
                 autofocus: true,
                 textCapitalization: TextCapitalization.characters,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: "Correo electronico",
                     labelText: "Correo electronico",
                     border: OutlineInputBorder(
@@ -58,9 +64,8 @@ class _RegisterTouristFormState extends State<RegisterTourist>{
                         )
                     )
                 ),
-                onSubmitted: (valor){
+                onChanged: (valor){
                   _email = valor;
-                  print("el email es $_email");
                 },
               ),
               TextField(
@@ -78,18 +83,18 @@ class _RegisterTouristFormState extends State<RegisterTourist>{
                         });
                       },
                     ),
-                    border: OutlineInputBorder(
+                    border: const OutlineInputBorder(
                         borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(20.0),
                             bottomRight: Radius.circular(20.0)
                         )
                     )
                 ),
-                onSubmitted: (valor){
+                onChanged: (valor){
                   _password = valor;
                 },
               ),
-              Text(
+              const Text(
                 "Informacion de la Cuenta",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -97,14 +102,14 @@ class _RegisterTouristFormState extends State<RegisterTourist>{
                 ),
                 textAlign: TextAlign.left,
               ),
-              Divider(
+              const Divider(
                   height: 20.0
               ),
               TextField(
                 enableInteractiveSelection: false,
                 autofocus: true,
                 textCapitalization: TextCapitalization.characters,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: "nombre del usuario",
                     labelText: "nombre del usuario",
                     border: OutlineInputBorder(
@@ -114,9 +119,22 @@ class _RegisterTouristFormState extends State<RegisterTourist>{
                         )
                     )
                 ),
-                onSubmitted: (valor){
+                onChanged: (valor){
                   _name = valor;
-                  print("el _name es $_name");
+                },
+
+              ),
+              TextField(
+                enableInteractiveSelection: false,
+                autofocus: true,
+                textCapitalization: TextCapitalization.characters,
+                decoration: const InputDecoration(
+                    hintText: "Apellido",
+                    border: OutlineInputBorder(
+                    )
+                ),
+                onChanged: (valor){
+                  _surname = valor;
                 },
 
               ),
@@ -127,7 +145,7 @@ class _RegisterTouristFormState extends State<RegisterTourist>{
                           enableInteractiveSelection: false,
                           autofocus: true,
                           textCapitalization: TextCapitalization.characters,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                               hintText: "numero de contacto",
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.only(
@@ -135,9 +153,8 @@ class _RegisterTouristFormState extends State<RegisterTourist>{
                                   )
                               )
                           ),
-                          onSubmitted: (valor){
+                          onChanged: (valor){
                             _phone = valor;
-                            print("el email es $_phone");
                           },
                         ),
 
@@ -147,7 +164,7 @@ class _RegisterTouristFormState extends State<RegisterTourist>{
                       enableInteractiveSelection: false,
                       autofocus: true,
                       textCapitalization: TextCapitalization.characters,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           hintText: "pais",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.only(
@@ -155,16 +172,15 @@ class _RegisterTouristFormState extends State<RegisterTourist>{
                               )
                           )
                       ),
-                      onSubmitted: (valor){
+                      onChanged: (valor){
                         _country = valor;
-                        print("el pais es $_country");
                       },
                     ),
 
                   )
                   ],
               ),
-              Divider(
+              const Divider(
                 height: 20.0,
               ),
 
@@ -180,7 +196,7 @@ class _RegisterTouristFormState extends State<RegisterTourist>{
                         },
                       ),
                   ),
-                  Expanded(
+                  const Expanded(
                     child: Text(
                       "Declaro tener +18 años de edad",
                       style: TextStyle(
@@ -191,7 +207,7 @@ class _RegisterTouristFormState extends State<RegisterTourist>{
                 ],
               ),
 
-              Divider(
+              const Divider(
                 height: 20.0,
               ),
 
@@ -199,20 +215,25 @@ class _RegisterTouristFormState extends State<RegisterTourist>{
                 children: [
                   Expanded(
                     child: Checkbox(
-                      value: isChecked,
+                      value: terms,
                       onChanged: (value) {
                         setState(() {
-                          isChecked = value!;
+                          terms = value!;
                         });
                       },
                     ),
                   ),
                   Expanded(
-                    child: Text(
-                      "Declaro tener +18 años de edad",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold
+                    child: TextButton(
+                      child: const Text(
+                        "Acepto los terminos y condiciones",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold
+                        ),
                       ),
+                      onPressed: (){
+                        termsAndConditions();
+                      },
                     ),
                   ),
                 ],
@@ -223,13 +244,13 @@ class _RegisterTouristFormState extends State<RegisterTourist>{
                 children: [
                   Expanded(
                     child:  ElevatedButton(
-                      child: Text("Finalizar"),
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                        register();
                       },
                       style: ElevatedButton.styleFrom(
-                          primary: Color(0xFF9CD4E7)
+                          primary: const Color(0xFF9CD4E7)
                       ),
+                      child: const Text("Finalizar"),
                     ),
 
                   )
@@ -246,5 +267,69 @@ class _RegisterTouristFormState extends State<RegisterTourist>{
       ),
     );
   }
+  void termsAndConditions(){
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Terminos y condiciones'),
+        content: const Text('Aceptación de los términos: Al acceder o utilizar nuestros servicios, el usuario acepta y se compromete a cumplir con los términos y condiciones establecidos en este documento.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context, 'OK');
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
 
+  void showMessage(){
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Error'),
+        content: const Text('Ocurrio un error al realizar el registro'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.popUntil(context, (route) => route.isFirst);
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+  void success(){
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Exito'),
+        content: const Text('Se registro con exito'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.popUntil(context, (route) => route.isFirst);
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> register() async{
+
+    newCustomer customer = newCustomer(name: _name, lastName: _surname, password: _password, email: _email, phoneNumber: _phone, img_url: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', type_user: 'customer');
+    var json = jsonEncode(customer.toJson());
+    var response = await authService.postTourist(json);
+    if(response == 200){
+      success();
+    }
+    else {
+      showMessage();
+    }
+  }
 }
