@@ -121,7 +121,9 @@ class _ProfileAgencyScreenState extends State<ProfileAgencyScreen>{
                           ),
                           title: Text(service.name),
                           subtitle: Text(service.location),
-                          trailing: Text('\$${service.price}'),
+                          trailing: IconButton(icon: Icon(Icons.delete), onPressed: (){
+                            deleteService(service.id);
+                          },),
                           onTap: (){
                             Navigator.push(
                               context,
@@ -182,5 +184,30 @@ class _ProfileAgencyScreenState extends State<ProfileAgencyScreen>{
     setState(() {
       services = response;
     });
+  }
+  
+  void deleteService(String id){
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Eliminar Servicio'),
+        content: const Text('Esta seguro que desea eliminar el servicio?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () async {
+              await AgencyApi.deleteService(id);
+              Navigator.pop(context, 'OK');
+            },
+            child: const Text('OK'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context, 'Cancel');
+            },
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
   }
 }
