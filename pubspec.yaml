@@ -37,6 +37,7 @@ dependencies:
   http: ^0.13.0
   flutter_rating_bar: ^4.0.1
   flutter_secure_storage: ^8.0.0
+  camera: ^0.9.4+19
 
 
 dev_dependencies:
