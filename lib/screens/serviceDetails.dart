@@ -36,7 +36,7 @@ class _DetalleState extends State<Detalle> {
     setParams();
     fetchActivities();
     fetchService();
-    fetchWeather();
+    //fetchWeather();
   }
 
   @override
@@ -221,10 +221,11 @@ class _DetalleState extends State<Detalle> {
     setState(() {
       service = response;
     });
+    fetchWeather();
   }
 
   Future<void> fetchWeather() async{
-    final response = await weatherApi.fetchbyId(agency.location);
+    final response = await weatherApi.fetchbyId(service.location);
     setState(() {
       weather = response.weather[0].main;
       temp = response.main.temp;
