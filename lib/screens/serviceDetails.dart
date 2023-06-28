@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go2climb/models/activity.dart';
 import 'package:go2climb/models/service.dart';
+import 'package:go2climb/models/weather.dart';
 import 'package:go2climb/screens/edit_service.dart';
 import 'package:go2climb/screens/hire_service.dart';
 import 'package:go2climb/services/activitiesApi.dart';
 import 'package:go2climb/services/agencyApi.dart';
+import 'package:go2climb/services/weather.dart';
 
 class Detalle extends StatefulWidget {
   const Detalle({Key? key, required this.serviceId}) : super(key: key);
@@ -22,6 +24,11 @@ class _DetalleState extends State<Detalle> {
   List<Activity> activities = [];
   AgencyDetails agency = AgencyDetails(id: 'id', score: 0, name: 'name', email: 'email', description: 'description', location: 'location', phoneNumber: 'phoneNumber', img_url: 'https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image-300x225.png', type_user: 'type_user');
   late Services service = Services(id: 'id', name: 'name', price: 0, location: 'location', img_url: 'https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image-300x225.png', description: 'description', score: 0, agency: agency);
+  String weather = '';
+  double temp = 0;
+  double tempmin = 0;
+  double tempmax = 0;
+
 
   @override
   void initState() {
@@ -29,8 +36,7 @@ class _DetalleState extends State<Detalle> {
     setParams();
     fetchActivities();
     fetchService();
-
-
+    //fetchWeather();
   }
 
   @override
@@ -105,6 +111,20 @@ class _DetalleState extends State<Detalle> {
                     )
                   ],
                 ),
+            ),
+            Card(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+              child: ListTile(
+                title: Text('Clima: $weather'),
+                subtitle: Column(
+                  children: [
+                    Text('Temp: $temp ºF'),
+                    Text('Temp minima: $tempmin ºF'),
+                    Text('Temp maxima: $tempmax ºF')
+                  ],
+                ),
+                //weather.main?.temp,
+              ),
             ),
             Card(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -200,6 +220,17 @@ class _DetalleState extends State<Detalle> {
     final response = await AgencyApi.fetchServicebyId(widget.serviceId);
     setState(() {
       service = response;
+    });
+    fetchWeather();
+  }
+
+  Future<void> fetchWeather() async{
+    final response = await weatherApi.fetchbyId(service.location);
+    setState(() {
+      weather = response.weather[0].main;
+      temp = response.main.temp;
+      tempmin = response.main.tempMin;
+      tempmax = response.main.tempMax;
     });
   }
 

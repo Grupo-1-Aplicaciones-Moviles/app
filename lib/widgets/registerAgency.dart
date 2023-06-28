@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:go2climb/models/newAgency.dart';
 import 'package:go2climb/services/auth.dart';
+import 'package:go2climb/widgets/login.dart';
 import 'package:go2climb/widgets/registerTourist.dart';
 
 import '../screens/home.dart';
@@ -219,12 +220,17 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
                       },
                     ),
                   ),
-                  const Expanded(
-                    child: Text(
-                      "Acepto los terminos y condiciones de Go2Climb",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold
+                  Expanded(
+                    child: TextButton(
+                      child: const Text(
+                        "Acepto los terminos y condiciones de Go2Climb",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold
+                        ),
                       ),
+                      onPressed: () {
+                        termsAndConditions();
+                      },
                     ),
                   ),
                 ],
@@ -263,12 +269,11 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
         context: context,
         builder: (BuildContext context) => AlertDialog(
           title: const Text('Error'),
-          content: const Text('Ocurrio un error al '),
+          content: const Text('Ocurrio un error al realizar el registro'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.pop(context, 'OK');
-                Navigator.pop(context);
+                Navigator.popUntil(context, (route) => route.isFirst);
               },
               child: const Text('OK'),
             ),
@@ -285,11 +290,28 @@ class _RegisterAgencyFormState extends State<RegisterAgency>{
     if(response == 200){
       Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPlan()));
     }
-    else
+    else {
       showMessage();
+    }
   }
 
-
+  void termsAndConditions(){
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Terminos y condiciones'),
+        content: const Text('Aceptación de los términos: Al acceder o utilizar nuestros servicios, el usuario acepta y se compromete a cumplir con los términos y condiciones establecidos en este documento.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context, 'OK');
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
 
 }
 
@@ -346,7 +368,7 @@ class _RegisterPlanFormState extends State<RegisterPlan>{
                       width: 110,
                       child: ElevatedButton(
 
-                          child: Column(
+                          child: const Column(
                            children:<Widget> [
 
                              Padding(
@@ -668,7 +690,7 @@ class _RegisterPlanFormState extends State<RegisterPlan>{
                     child:  ElevatedButton(
                       child: Text("Registrarse"),
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                        showMessage();
                       },
                       style: ElevatedButton.styleFrom(
                           primary: Color(0xFF9CD4E7)
@@ -685,6 +707,23 @@ class _RegisterPlanFormState extends State<RegisterPlan>{
 
           )
 
+        ],
+      ),
+    );
+  }
+  void showMessage(){
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Exito'),
+        content: const Text('Registro exitoso'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.popUntil(context, (route) => route.isFirst);
+            },
+            child: const Text('OK'),
+          ),
         ],
       ),
     );

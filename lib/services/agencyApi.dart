@@ -120,5 +120,17 @@ class AgencyApi{
     final result = AgencyDetails.fromJson(json);
     return result;
   }
+
+  static Future<int> deleteService(String id) async{
+    final headers = {"Content-type": "application/json"};
+    var url = 'http://10.0.2.2:3000/api/v1/services/$id';
+    final uri = Uri.parse(url);
+    //print(json);
+    final response = await http.delete(uri,headers: headers);
+    //print('Status code: ${response.statusCode}');
+    //print('Body: ${response.body}');
+    return response.statusCode;
+
+  }
   
 }
