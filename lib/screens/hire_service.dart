@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go2climb/models/hiredService.dart';
 import 'package:go2climb/models/service.dart';
 import 'package:go2climb/services/hiredServiceApi.dart';
@@ -12,9 +13,11 @@ class HireService extends StatefulWidget {
 
   @override
   _HireServiceState createState() => _HireServiceState();
+
 }
 
 class _HireServiceState extends State<HireService> {
+  final storage = FlutterSecureStorage();
 
   String status = 'active';
   late String service_id;
@@ -201,11 +204,12 @@ class _HireServiceState extends State<HireService> {
     }
   }
 
-  setIds(){
+  setIds() async{
+    var id = await storage.read(key: 'id');
     setState(() {
       service_id = widget.sId.id;
       agency_id = widget.aId;
-      customer_id = '64260f7d02a4e333cbbb4d88';
+      customer_id = id!;
     });
   }
 

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go2climb/models/newService.dart';
 import 'package:go2climb/services/agencyApi.dart';
 
@@ -12,7 +13,7 @@ class CreateService extends StatefulWidget {
 }
 
 class _CreateServiceState extends State<CreateService> {
-
+  final storage = FlutterSecureStorage();
   int price = 0;
   String name = "";
   String location = "";
@@ -216,9 +217,10 @@ class _CreateServiceState extends State<CreateService> {
     }
   }
 
-  void setAgencyId(){
+  void setAgencyId() async{
+    var id = await storage.read(key: 'id');
     setState(() {
-      agencyId = "6426479b9e322306c078f81b";
+      agencyId = id!;
     });
   }
 }
