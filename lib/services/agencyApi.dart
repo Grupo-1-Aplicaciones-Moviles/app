@@ -4,8 +4,8 @@ import 'package:go2climb/models/service.dart';
 import 'package:http/http.dart' as http;
 
 class AgencyApi{
-  static Future<List<Services>> fetchServices() async{
 
+  static Future<List<Services>> fetchServices() async{
     //const url = 'https://go2climbmobile.herokuapp.com/api/v1/services';
     const url = 'http://10.0.2.2:3000/api/v1/services';
     final uri = Uri.parse(url);
@@ -32,8 +32,8 @@ class AgencyApi{
 
   static Future<Services> fetchServicebyId(String id) async{
 
-    //const url = 'https://go2climbmobile.herokuapp.com/api/v1/services';
-    var url = 'http://10.0.2.2:3000/api/v1/services/$id';
+    //var url = 'https://go2climbmobile.herokuapp.com/api/v1/services';
+    var url = 'https://go2climbmobile.herokuapp.com/api/v1/services/$id';
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     final body = response.body;
@@ -55,7 +55,8 @@ class AgencyApi{
   
   static Future<int> postService(dynamic service) async{
     final headers = {"Content-type": "application/json"};
-    const url = 'http://10.0.2.2:3000/api/v1/services';
+    //const url = 'https://go2climbmobile.herokuapp.com/api/v1/services';
+    const url = 'https://go2climbmobile.herokuapp.com/api/v1/services';
     final uri = Uri.parse(url);
     final json = service;
     //print(json);
@@ -68,7 +69,8 @@ class AgencyApi{
 
   static Future<int> updateService(dynamic service, String id) async{
     final headers = {"Content-type": "application/json"};
-    var url = 'http://10.0.2.2:3000/api/v1/services/$id';
+    //var url = 'https://go2climbmobile.herokuapp.com/api/v1/services';
+    var url = 'https://go2climbmobile.herokuapp.com/api/v1/services/$id';
     final uri = Uri.parse(url);
     final json = service;
     //print(json);
@@ -80,7 +82,8 @@ class AgencyApi{
   }
 
   static Future<List<newService>> getSeviceByAgencyId(String id) async{
-    var url = 'http://10.0.2.2:3000/api/v1/agencies/$id/services';
+    //var url = 'https://go2climbmobile.herokuapp.com/api/v1/services';
+    var url = 'https://go2climbmobile.herokuapp.com/api/v1/agencies/$id/services';
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     final body = response.body;
@@ -96,7 +99,8 @@ class AgencyApi{
   }
 
   static Future<List<newService>> searchService(String name) async{
-    var url = 'http://10.0.2.2:3000/api/v1/services/name/$name';
+    //var url = 'https://go2climbmobile.herokuapp.com/api/v1/services';
+    var url = 'https://go2climbmobile.herokuapp.com/api/v1/services/name/$name';
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     final body = response.body;
@@ -112,7 +116,7 @@ class AgencyApi{
   }
 
   static Future<AgencyDetails> getAgencyById(String id) async{
-    var url = 'http://10.0.2.2:3000/api/v1/agencies/$id';
+    var url = 'https://go2climbmobile.herokuapp.com/api/v1/agencies/$id';
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     final body = response.body;
@@ -123,7 +127,7 @@ class AgencyApi{
 
   static Future<int> deleteService(String id) async{
     final headers = {"Content-type": "application/json"};
-    var url = 'http://10.0.2.2:3000/api/v1/services/$id';
+    var url = 'https://go2climbmobile.herokuapp.com/api/v1/services/$id';
     final uri = Uri.parse(url);
     //print(json);
     final response = await http.delete(uri,headers: headers);

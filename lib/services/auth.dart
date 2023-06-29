@@ -6,7 +6,7 @@ class authService{
 
   static Future<dynamic> loginTourist(dynamic creds) async{
     final headers = {"Content-type": "application/json"};
-    const url = 'http://10.0.2.2:3000/api/v1/auth/customers/login';
+    const url = 'https://go2climbmobile.herokuapp.com/api/v1/auth/customers/login';
     final uri = Uri.parse(url);
     final json = jsonEncode(creds);
     final response = await http.post(uri,headers: headers,body: json);
@@ -15,7 +15,7 @@ class authService{
 
   static Future<dynamic> loginAgency(dynamic creds) async{
     final headers = {"Content-type": "application/json"};
-    const url = 'http://10.0.2.2:3000/api/v1/auth/agencies/login';
+    const url = 'https://go2climbmobile.herokuapp.com/api/v1/auth/agencies/login';
     final uri = Uri.parse(url);
     final json = jsonEncode(creds);
     print(json);
@@ -25,7 +25,7 @@ class authService{
 
   static Future<int> postAgency(dynamic data) async{
     final headers = {"Content-type": "application/json"};
-    const url = 'http://10.0.2.2:3000/api/v1/auth/agencies/register';
+    const url = 'https://go2climbmobile.herokuapp.com/api/v1/auth/agencies/register';
     final uri = Uri.parse(url);
     final json = data;
     final response = await http.post(uri,headers: headers,body: json);
@@ -34,7 +34,7 @@ class authService{
 
   static Future<int> postTourist(dynamic data) async{
     final headers = {"Content-type": "application/json"};
-    const url = 'http://10.0.2.2:3000/api/v1/auth/customers/register';
+    const url = 'https://go2climbmobile.herokuapp.com/api/v1/auth/customers/register';
     final uri = Uri.parse(url);
     final json = data;
     final response = await http.post(uri,headers: headers,body: json);

@@ -10,7 +10,7 @@ class hiredServiceApi{
 
   static Future<int> postHiredService(dynamic service) async{
     final headers = {"Content-type": "application/json"};
-    const url = 'http://10.0.2.2:3000/api/v1/hired-services';
+    const url = 'https://go2climbmobile.herokuapp.com/api/v1/hired-services';
     final uri = Uri.parse(url);
     final json = service;
     print(json);
@@ -22,7 +22,7 @@ class hiredServiceApi{
   }
 
   static Future<List<agencyHiredService>> getAgencyHiredServices(dynamic id) async{
-    var url = 'http://10.0.2.2:3000/api/v1/agencies/$id/hiredservices';
+    var url = 'https://go2climbmobile.herokuapp.com/api/v1/agencies/$id/hiredservices';
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     final body = response.body;
@@ -37,7 +37,7 @@ class hiredServiceApi{
   }
 
   static Future<List<touristHiredService>> getTouristHiredServices(dynamic id) async{
-    var url = 'http://10.0.2.2:3000/api/v1/customers/$id/hiredservices';
+    var url = 'https://go2climbmobile.herokuapp.com/api/v1/customers/$id/hiredservices';
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     final body = response.body;
