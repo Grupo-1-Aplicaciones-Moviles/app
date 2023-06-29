@@ -7,7 +7,7 @@ class AgencyApi{
 
   static Future<List<Services>> fetchServices() async{
     //const url = 'https://go2climbmobile.herokuapp.com/api/v1/services';
-    const url = 'http://10.0.2.2:3000/api/v1/services';
+    const url = 'https://go2climbmobile.herokuapp.com/api/v1/services';
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     final body = response.body;
