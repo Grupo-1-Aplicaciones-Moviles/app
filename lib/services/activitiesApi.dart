@@ -6,7 +6,7 @@ class activitiesApi{
 
   static Future<List<Activity>> fetchActivitiesById(String id) async{
     var param = id;
-    var url = 'http://10.0.2.2:3000/api/v1/services/$param/activities';
+    var url = 'https://go2climbmobile.herokuapp.com/api/v1/services/$param/activities';
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     final body = response.body;
